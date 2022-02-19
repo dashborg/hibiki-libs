@@ -1,0 +1,23 @@
+<!--
+Copyright 2022 Dashborg Inc
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+<define-library name="hibiki/code-highlight" version="v0.1.0" hibikiversion="v0.3.1">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.js"></script>
+
+  <define-component name="code">
+    <define-handler name="//@event/mount">
+      //@lib/highlight(id=$c.@hibiki.uuid, fromselector=$args.fromselector, beautify=$args.beautify, useouterhtml=$args.useouterhtml, beautifyopts=$args.beautifyopts);
+    </define-handler>
+    <pre automerge="@all|-fromselector|-beautify|-beautifyopts|-userouterhtml"><code id="*$c.@hibiki.uuid" automerge="code"><h-children text="*$args.text" bind="@children"></h-children></code></pre>
+  </define-component>
+
+  <!-- inject:html --><!-- endinject -->
+  <!-- inject:js --><!-- endinject -->
+  <!-- inject:css --><!-- endinject -->
+</define-library>
