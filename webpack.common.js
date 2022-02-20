@@ -56,25 +56,10 @@ module.exports = {
                     },
                 },
             },
-            {
-                test: /\.css$/,
-                use: [
-                    "style-loader",
-                    "css-loader",
-                ],
-            },
-            {
-                test: /\.less$/,
-                use: [
-                    {loader: MiniCssExtractPlugin.loader},
-                    "css-loader",
-                    "less-loader"
-                ]
-            },
         ]
     },
     plugins: [],
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.mjs', '.cjs', '.wasm', '.json', '.less', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.mjs', '.cjs', '.wasm', '.json']
     },
 }
