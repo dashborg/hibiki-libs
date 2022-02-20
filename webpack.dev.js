@@ -9,14 +9,5 @@ module.exports = merge.merge(common, {
     watchOptions: {
         aggregateTimeout: 200,
     },
-    devServer: {
-        static: {
-            directory: path.join(__dirname, "dist"),
-        },
-        port: 5005,
-        headers: {
-            'Cache-Control': 'no-store',
-        },
-    },
 });
 

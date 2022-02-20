@@ -1119,6 +1119,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.51.tgz#cfd70924a25a3fd32b218e5e420e6897e1ac4f40"
   integrity sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==
 
+"@types/expect@^1.20.4":
+  version "1.20.4"
+  resolved "https://registry.yarnpkg.com/@types/expect/-/expect-1.20.4.tgz#8288e51737bf7e3ab5d7c77bfa695883745264e5"
+  integrity sha512-Q5Vn3yjTDyCMV50TB6VRIbQNxSE4OmZR86VSbGaNpfUolm0iePBB4KdEEHmxoY5sT2+2DIvXW0rvMDP2nHZ4Mg==
+
 "@types/express-serve-static-core@*", "@types/express-serve-static-core@^4.17.18":
   version "4.17.28"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.28.tgz#c47def9f34ec81dc6328d0b1b5303d1ec98d86b8"
@@ -1159,6 +1164,11 @@
   version "17.0.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.18.tgz#3b4fed5cfb58010e3a2be4b6e74615e4847f1074"
   integrity sha512-eKj4f/BsN/qcculZiRSujogjvp5O/k4lOW5m35NopjZM/QwLOR075a8pJW5hD+Rtdm2DaCVPENS6KtSQnUD6BA==
+
+"@types/node@^14.14.41":
+  version "14.18.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.12.tgz#0d4557fd3b94497d793efd4e7d92df2f83b4ef24"
+  integrity sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==
 
 "@types/node@^16.11.11":
   version "16.11.11"
@@ -1219,6 +1229,14 @@
   resolved "https://registry.yarnpkg.com/@types/sockjs/-/sockjs-0.3.33.tgz#570d3a0b99ac995360e3136fd6045113b1bd236f"
   integrity sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==
   dependencies:
+    "@types/node" "*"
+
+"@types/vinyl@^2.0.4":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@types/vinyl/-/vinyl-2.0.6.tgz#b2d134603557a7c3d2b5d3dc23863ea2b5eb29b0"
+  integrity sha512-ayJ0iOCDNHnKpKTgBG6Q6JOnHTj9zFta+3j2b8Ejza0e4cvRyMn0ZoLEmbPrTHe5YYRlDYPvPWVdV4cTaRyH7g==
+  dependencies:
+    "@types/expect" "^1.20.4"
     "@types/node" "*"
 
 "@types/ws@^8.2.2":
@@ -1787,6 +1805,11 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
+binaryextensions@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-2.3.0.tgz#1d269cbf7e6243ea886aa41453c3651ccbe13c22"
+  integrity sha512-nAihlQsYGyc5Bwq6+EsubvANYGExeJKHDO3RjnvwU042fawQTQfM3Kxn7IHUXQOz4bzfwsGYYHGSvXyW4zOGLg==
+
 bindings@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
@@ -2300,6 +2323,11 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
+dayjs@^1.10.7:
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
+  integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -2585,7 +2613,7 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
-escape-string-regexp@^1.0.5:
+escape-string-regexp@^1.0.3, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
@@ -3307,6 +3335,17 @@ gulp-rename@^2.0.0:
   resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-2.0.0.tgz#9bbc3962b0c0f52fc67cd5eaff6c223ec5b9cf6c"
   integrity sha512-97Vba4KBzbYmR5VBs9mWmK+HwIf5mj+/zioxfZhOKeXtx5ZjBk57KFlePf5nxq9QsTtFl0ejnHE3zTC9MHXqyQ==
 
+gulp-replace@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/gulp-replace/-/gulp-replace-1.1.3.tgz#8641cdca78e683e8573ca4a012e7e4ebb7e4db60"
+  integrity sha512-HcPHpWY4XdF8zxYkDODHnG2+7a3nD/Y8Mfu3aBgMiCFDW3X2GiOKXllsAmILcxe3KZT2BXoN18WrpEFm48KfLQ==
+  dependencies:
+    "@types/node" "^14.14.41"
+    "@types/vinyl" "^2.0.4"
+    istextorbinary "^3.0.0"
+    replacestream "^4.0.3"
+    yargs-parser ">=5.0.0-security.0"
+
 gulp-watch@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/gulp-watch/-/gulp-watch-5.0.1.tgz#83d378752f5bfb46da023e73c17ed1da7066215d"
@@ -3925,6 +3964,14 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+istextorbinary@^3.0.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/istextorbinary/-/istextorbinary-3.3.0.tgz#06b1c57d948da11461bd237c00ce09e9902964f2"
+  integrity sha512-Tvq1W6NAcZeJ8op+Hq7tdZ434rqnMx4CCZ7H0ff83uEloDvVbqAwaMTZcafKGJT0VHkYzuXUiCY4hlXQg6WfoQ==
+  dependencies:
+    binaryextensions "^2.2.0"
+    textextensions "^3.2.0"
+
 jest-worker@^27.4.5:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.5.1.tgz#8d146f0900e8973b106b6f73cc1e9a8cb86f8db0"
@@ -4503,7 +4550,7 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -5221,6 +5268,15 @@ replace-homedir@^1.0.0:
     is-absolute "^1.0.0"
     remove-trailing-separator "^1.1.0"
 
+replacestream@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/replacestream/-/replacestream-4.0.3.tgz#3ee5798092be364b1cdb1484308492cb3dff2f36"
+  integrity sha512-AC0FiLS352pBBiZhd4VXB1Ab/lh0lEgpP+GGvZqbQh8a5cmXVoTe5EX/YeTFArnp4SRGTHh1qCHu9lGs1qG8sA==
+  dependencies:
+    escape-string-regexp "^1.0.3"
+    object-assign "^4.0.1"
+    readable-stream "^2.0.2"
+
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
@@ -5873,6 +5929,11 @@ terser@^5.7.2:
     source-map "~0.7.2"
     source-map-support "~0.5.20"
 
+textextensions@^3.2.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-3.3.0.tgz#03530d5287b86773c08b77458589148870cc71d3"
+  integrity sha512-mk82dS8eRABNbeVJrEiN5/UMSCliINAuz8mkUwH4SwslkNP//gbEzlWNS5au0z5Dpx40SQxzqZevZkn+WYJ9Dw==
+
 through2-filter@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/through2-filter/-/through2-filter-3.0.0.tgz#700e786df2367c2c88cd8aa5be4cf9c1e7831254"
@@ -6447,6 +6508,11 @@ yallist@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+
+yargs-parser@>=5.0.0-security.0:
+  version "21.0.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.0.tgz#a485d3966be4317426dd56bdb6a30131b281dc55"
+  integrity sha512-z9kApYUOCwoeZ78rfRYYWdiU/iNL6mwwYlkkZfJoyMR1xps+NEBX5X7XmRpxkZHhXJ6+Ey00IwKxBBSW9FIjyA==
 
 yargs-parser@^5.0.1:
   version "5.0.1"

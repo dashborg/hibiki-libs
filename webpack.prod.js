@@ -6,8 +6,7 @@ const path = require("path");
 module.exports = merge.merge(common, {
     mode: "production",
     output: {
-        path: path.resolve(__dirname, "build"),
-        filename: "[name]/bundle-prod.js",
+        filename: "bundle-prod.js",
     },
     devtool: "source-map",
     optimization: {

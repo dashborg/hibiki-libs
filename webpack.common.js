@@ -4,12 +4,8 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: {
-        "hibiki/code-highlight": ["./src/hibiki/code-highlight/index.ts"],
-    },
     output: {
-        path: path.resolve(__dirname, "build"),
-        filename: "[name]/bundle-dev.js"
+        filename: "bundle-dev.js"
     },
     externals: {
         "react": "Hibiki.ImportLibs.React",
@@ -77,14 +73,7 @@ module.exports = {
             },
         ]
     },
-    plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                {from: "**/*.html", to: ".", context: "src/", noErrorOnMissing: true},
-                {from: "**/*.css", to: ".", context: "src/", noErrorOnMissing: true},
-            ],
-        }),
-    ],
+    plugins: [],
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.mjs', '.cjs', '.wasm', '.json', '.less', '.css']
     },
