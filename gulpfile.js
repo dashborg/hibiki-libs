@@ -19,14 +19,14 @@ var del = require("del");
 var dayjs = require("dayjs");
 var cors = require("cors");
 
-let versionRegexp = /^v\d+\.\d+\.\d+$/;
+let LIBS = ["hibiki/code-highlight", "hibiki/codemirror", "hibiki/bulma"];
 
 // # base, gulp-only tasks (files already in /build)
-// gulp:builddev:[LIB]
-// gulp:watch:[LIB]
-// gulp:buildprod:[LIB]
+// [gulp|sass|webpack]:builddev:[LIB]
+// [gulp|sass|webpack]:buildprod:[LIB]
+// [gulp|sass|webpack]:watch:[LIB]
 // 
-// # adds webpack
+// # adds webpack+gulp+sass
 // builddev:[LIB]
 // watch:[LIB]
 // buildprod:[LIB]
@@ -35,6 +35,7 @@ let versionRegexp = /^v\d+\.\d+\.\d+$/;
 // builddev:all
 // buildprod:all
 // watch:all
+// webserver:base
 // 
 // # webpack 'all' tasks
 // webpack:watch:all
@@ -46,8 +47,9 @@ let versionRegexp = /^v\d+\.\d+\.\d+$/;
 // builddev
 // buildprod
 // watch
+// webserver - webserver + watch
 
-let LIBS = ["hibiki/code-highlight"];
+let versionRegexp = /^v\d+\.\d+\.\d+$/;
 let BUILD = makeBuildStr();
 
 function makeBuildStr() {
@@ -89,9 +91,10 @@ function readLibVersion(libFileName, dir, libName) {
 function buildTask(libName) {
     console.log("building gulp tasks for", libName);
     
-    let buildDir = "build/" + libName + "/";
+    let buildDirDev = "build/dev/" + libName + "/"
+    let buildDirProd = "build/prod/" + libName + "/";
     let srcDir = "src/" + libName + "/";
-    let baseName = path.basename(buildDir);
+    let baseName = path.basename(srcDir);
     let libFileName = path.resolve(srcDir, baseName + ".html");
     let transformFn = (filePath, file) => {
         let contents = file.contents.toString("utf8");
@@ -110,44 +113,23 @@ function buildTask(libName) {
             throw new Error("Invalid extension for injected file:", filePath);
         }
     };
+
+    // DEV
     gulp.task("sass:builddev:" + libName, () => {
         return gulp.src(srcDir + "*.scss", {allowEmpty: true})
             .pipe(sass.sync().on("error", sass.logError))
-            .pipe(gulp.dest(buildDir));
-    });
-    gulp.task("sass:buildprod:" + libName, () => {
-        return gulp.src(srcDir + "*.scss", {allowEmpty: true})
-            .pipe(sass.sync({outputStyle: "compressed"}).on("error", sass.logError))
-            .pipe(gulp.dest(buildDir));
+            .pipe(gulp.dest(buildDirDev));
     });
     gulp.task("gulp:builddev:" + libName, () => {
-        let libVersion = readLibVersion(libFileName, buildDir, libName);
+        let libVersion = readLibVersion(libFileName, buildDirDev, libName);
         let destDir = "./dist/libs/" + libName + "/" + libVersion + "/";
         let target = gulp.src(libFileName);
-        let injectSources = gulp.src([srcDir + "_*.html", buildDir + "bundle-dev.js", srcDir + "*.css", buildDir + "*.css"], {allowEmpty: true});
+        let injectSources = gulp.src([srcDir + "_*.html", buildDirDev + "bundle-dev.js", srcDir + "*.css", buildDirDev + "*.css"], {allowEmpty: true});
         console.log("Building Library " + libName + " " + libVersion + " => " + destDir + baseName + ".dev.html");
         return task = target
             .pipe(replace(/(<define-library[^>]+ build)/, "$1=\"" + BUILD + "\""))
             .pipe(inject(injectSources, {transform: transformFn}))
             .pipe(rename(baseName + ".dev.html"))
-            .pipe(gulp.dest(destDir));
-    });
-    gulp.task("gulp:watch:" + libName, () => {
-        watch([buildDir + "*.js", srcDir + "*.html", srcDir + "*.css", buildDir + "*.css"],
-              {queue: false, delay: 1000}, gulp.series("gulp:builddev:" + libName));
-    });
-    gulp.task("sass:watch:" + libName, () => {
-        watch(srcDir + "*.scss", {queue: false, delay: 200}, gulp.series("sass:builddev:" + libName));
-    });
-    gulp.task("gulp:buildprod:" + libName, () => {
-        let libVersion = readLibVersion(libFileName, buildDir, libName);
-        let destDir = "./dist/libs/" + libName + "/" + libVersion + "/";
-        let target = gulp.src(libFileName);
-        let injectSources = gulp.src([srcDir + "_*.html", buildDir + "bundle-prod.js", srcDir + "*.css", buildDir + "*.css"], {allowEmpty: true});
-        console.log("Building Library " + libName + " " + libVersion + " => " + destDir + baseName + ".html (" + BUILD + ")");
-        return task = target
-            .pipe(replace(/(<define-library[^>]+ build)/, "$1=\"" + BUILD + "\""))
-            .pipe(inject(injectSources, {transform: transformFn}))
             .pipe(gulp.dest(destDir));
     });
     gulp.task("webpack:builddev:" + libName, () => {
@@ -158,7 +140,52 @@ function buildTask(libName) {
         let webpackConfig = require("./webpack.dev.js");
         return gulp.src(jsFile)
             .pipe(webpack(webpackConfig))
-            .pipe(gulp.dest(buildDir));
+            .pipe(gulp.dest(buildDirDev));
+    });
+    gulp.task("clean:dev:" + libName, () => {
+        return del(buildDirDev);
+    });
+    gulp.task("builddev:" + libName, gulp.series("clean:dev:" + libName, "webpack:builddev:" + libName, "sass:builddev:" + libName, "gulp:builddev:" + libName));
+
+    // PROD
+    gulp.task("sass:buildprod:" + libName, () => {
+        return gulp.src(srcDir + "*.scss", {allowEmpty: true})
+            .pipe(sass.sync({outputStyle: "compressed"}).on("error", sass.logError))
+            .pipe(gulp.dest(buildDirProd));
+    });
+    gulp.task("gulp:buildprod:" + libName, () => {
+        let libVersion = readLibVersion(libFileName, buildDirProd, libName);
+        let destDir = "./dist/libs/" + libName + "/" + libVersion + "/";
+        let target = gulp.src(libFileName);
+        let injectSources = gulp.src([srcDir + "_*.html", buildDirProd + "bundle-prod.js", srcDir + "*.css", buildDirProd + "*.css"], {allowEmpty: true});
+        console.log("Building Library " + libName + " " + libVersion + " => " + destDir + baseName + ".html (" + BUILD + ")");
+        return task = target
+            .pipe(replace(/(<define-library[^>]+ build)/, "$1=\"" + BUILD + "\""))
+            .pipe(inject(injectSources, {transform: transformFn}))
+            .pipe(gulp.dest(destDir));
+    });
+    gulp.task("webpack:buildprod:" + libName, () => {
+        let jsFile = libJsIndexFile(libName);
+        if (jsFile == null) {
+            return Promise.resolve(null);
+        }
+        let webpackConfig = require("./webpack.prod.js");
+        return gulp.src(jsFile)
+            .pipe(webpack(webpackConfig))
+            .pipe(gulp.dest(buildDirProd));
+    });
+    gulp.task("clean:prod:" + libName, () => {
+        return del(buildDirProd);
+    });
+    gulp.task("buildprod:" + libName, gulp.series("clean:prod:" + libName, "webpack:buildprod:" + libName, "sass:buildprod:" + libName, "gulp:buildprod:" + libName));
+
+    // WATCH (dev)
+    gulp.task("gulp:watch:" + libName, () => {
+        watch([buildDirDev + "*.js", srcDir + "*.html", srcDir + "*.css", buildDirDev + "*.css"],
+              {queue: false, delay: 1000}, gulp.series("gulp:builddev:" + libName));
+    });
+    gulp.task("sass:watch:" + libName, () => {
+        watch(srcDir + "*.scss", {queue: false, delay: 200}, gulp.series("sass:builddev:" + libName));
     });
     gulp.task("webpack:watch:" + libName, () => {
         let jsFile = libJsIndexFile(libName);
@@ -169,25 +196,17 @@ function buildTask(libName) {
         webpackConfig.watch = true;
         return gulp.src(jsFile)
             .pipe(webpack(webpackConfig))
-            .pipe(gulp.dest(buildDir));
+            .pipe(gulp.dest(buildDirDev));
     });
-    gulp.task("webpack:buildprod:" + libName, () => {
-        let jsFile = libJsIndexFile(libName);
-        if (jsFile == null) {
-            return Promise.resolve(null);
-        }
-        let webpackConfig = require("./webpack.prod.js");
-        return gulp.src(jsFile)
-            .pipe(webpack(webpackConfig))
-            .pipe(gulp.dest(buildDir));
-    });
-    gulp.task("clean:" + libName, () => {
-        return del(buildDir);
-    });
-    gulp.task("builddev:" + libName, gulp.series("clean:" + libName, "webpack:builddev:" + libName, "sass:builddev:" + libName, "gulp:builddev:" + libName));
-    gulp.task("buildprod:" + libName, gulp.series("clean:" + libName, "webpack:buildprod:" + libName, "sass:buildprod:" + libName, "gulp:buildprod:" + libName));
     gulp.task("watch:" + libName, gulp.series("builddev:" + libName, gulp.parallel("webpack:watch:" + libName, "gulp:watch:" + libName, "sass:watch:" + libName)));
-    return libName;
+    
+
+    // MISC (clean)
+    gulp.task("clean:" + libName, () => {
+        return del([buildDirDev, buildDirProd]);
+    });
+    
+    return;
 }
 
 gulp.task("webpack:builddev", () => {
@@ -207,7 +226,7 @@ gulp.task("webpack:builddev", () => {
     webpackConfig.output = {filename: "[name]/bundle-dev.js"};
     return gulp.src("src/")
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest("build/"));
+        .pipe(gulp.dest("build/dev"));
 });
 gulp.task("webpack:buildprod", () => {
     let webpackConfig = require("./webpack.prod.js");
@@ -226,7 +245,7 @@ gulp.task("webpack:buildprod", () => {
     webpackConfig.output = {filename: "[name]/bundle-prod.js"};
     return gulp.src("src/")
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest("build/"));
+        .pipe(gulp.dest("build/prod"));
 });
 gulp.task("webpack:watch", () => {
     let webpackConfig = require("./webpack.dev.js");
@@ -246,21 +265,27 @@ gulp.task("webpack:watch", () => {
     webpackConfig.watch = true;
     return gulp.src("src/")
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest("build/"));
+        .pipe(gulp.dest("build/dev"));
 });
 
 let devTasks = [];
 let prodTasks = [];
 let watchTasks = [];
 for (let libName of LIBS) {
-    let baseName = buildTask(libName);
-    devTasks.push(gulp.series("sass:builddev:" + baseName, "gulp:builddev:" + baseName));
-    prodTasks.push(gulp.series("sass:buildprod:" + baseName, "gulp:buildprod:" + baseName));
-    watchTasks.push("gulp:watch:" + baseName, "sass:watch:" + baseName);
+    buildTask(libName);
+    devTasks.push(gulp.series("sass:builddev:" + libName, "gulp:builddev:" + libName));
+    prodTasks.push(gulp.series("sass:buildprod:" + libName, "gulp:buildprod:" + libName));
+    watchTasks.push("gulp:watch:" + libName, "sass:watch:" + libName);
 }
 
 gulp.task("clean", () => {
     return del("build/**");
+});
+gulp.task("clean:dev", () => {
+    return del("build/dev/**");
+});
+gulp.task("clean:prod", () => {
+    return del("build/prod/**");
 });
 
 gulp.task("webserver:base", () => {
@@ -274,9 +299,10 @@ gulp.task("webserver:base", () => {
     });
 });
 
-gulp.task("builddev", gulp.series("clean", "webpack:builddev", gulp.parallel(devTasks)));
-gulp.task("buildprod", gulp.series("clean", "webpack:buildprod", gulp.parallel(prodTasks)));
-gulp.task("watch", gulp.series("clean", "builddev", gulp.parallel(["webpack:watch", ...watchTasks])));
+gulp.task("builddev", gulp.series("clean:dev", "webpack:builddev", gulp.parallel(devTasks)));
+gulp.task("buildprod", gulp.series("clean:prod", "webpack:buildprod", gulp.parallel(prodTasks)));
+gulp.task("build", gulp.series("builddev", "buildprod"));
+gulp.task("watch", gulp.series("clean:dev", "builddev", gulp.parallel(["webpack:watch", ...watchTasks])));
 gulp.task("webserver", gulp.parallel("webserver:base", "watch"));
 
 

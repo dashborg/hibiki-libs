@@ -52,10 +52,11 @@
   },
   "scripts": {
     "clean": "gulp clean",
+    "build": "gulp build",
     "builddev": "gulp builddev",
     "buildprod": "gulp buildprod",
     "watch": "gulp watch",
-    "lib-server": "http-server ./dist -p 5005 --cors -c-1",
+    "webserver": "gulp webserver",
     "typecheck": "tsc --jsx preserve --noEmit --esModuleInterop --target ES5 --experimentalDecorators --downlevelIteration `find src -name \"*.ts\"`"
   }
 }
