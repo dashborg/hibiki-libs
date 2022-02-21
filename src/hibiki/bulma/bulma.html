@@ -102,7 +102,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="breadcrumb">
     <nav class="breadcrumb" automerge>
       <ul>
-        <li component="h-children" bind="@children.bycomp['@hibiki/bulma:crumb']"></li>
+        <li component="h-children" bind="@children.bycomp['hibiki/bulma:crumb']"></li>
       </ul>
     </nav>
   </define-component>
@@ -142,7 +142,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <define-vars>
       @active = raw($args.active) ?? ref($c.active);
       @curvalue = raw($args.value) ?? ref($c.curvalue);
-      @activechildren = invoke(@children.bycomp["@hibiki/bulma:option"].filter, lambda(@node.attrs.value == @curvalue));
+      @activechildren = invoke(@children.bycomp["hibiki/bulma:option"].filter, lambda(@node.attrs.value == @curvalue));
     </define-vars>
     <div class="dropdown" automerge class.is-active="* @active" active="*@active" hibiki-mark>
       <div class="dropdown-trigger">
@@ -294,7 +294,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="modal" componentdata="show=true;">
     <define-vars>
       @show = raw($args.show) ?? ref($c.show);
-      @cardchildren = @children.bycomp['@hibiki/bulma:card'];
+      @cardchildren = @children.bycomp['hibiki/bulma:card'];
     </define-vars>
     <div class="modal" class.is-active="*@show">
       <div class="modal-background"></div>
@@ -368,11 +368,11 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="tabs">
     <define-vars>
       @curtab = raw($args.curtab) ?? ref($c.curtab);
-      @selectedtab = invoke(@children.bycomp['@hibiki/bulma:tab'].filter, lambda(@node.attrs.value == @curtab));
+      @selectedtab = invoke(@children.bycomp['hibiki/bulma:tab'].filter, lambda(@node.attrs.value == @curtab));
     </define-vars>
     <div class="tabs" automerge>
       <html-ul>
-        <h-children bind="@children.bycomp['@hibiki/bulma:tab']" inject:active="*@curtab == @node.attrs.value" inject:change.handler="@curtab = @value;" inject:mode="tab"></h-children>
+        <h-children bind="@children.bycomp['hibiki/bulma:tab']" inject:active="*@curtab == @node.attrs.value" inject:change.handler="@curtab = @value;" inject:mode="tab"></h-children>
       </html-ul>
     </div>
     <div if="$args.showcontent" automerge="content">
@@ -424,7 +424,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
         <tr>
           <th component="h-children"
               inject:sorticon="* (@sortfield == @node.attrs.sortfield) ? @sorticon : noattr"
-              bind="@children.bycomp['@hibiki/bulma:tablecol']"
+              bind="@children.bycomp['hibiki/bulma:tablecol']"
               inject:mode="header"
               inject:sort.handler="fire->sort(value=@value, col_sortexpr=@col_sortexpr, initialsortdesc=@initialsortdesc)"></th>
         </tr>
@@ -433,7 +433,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
         <tr foreach="(@v, @idx) in @data"
             click.handler="fire->rowclick(row=@v, rownum=@idx)">
           <td component="h-children"
-              bind="@children.bycomp['@hibiki/bulma:tablecol']"
+              bind="@children.bycomp['hibiki/bulma:tablecol']"
               inject:mode="row"
               inject:row="*raw(@v)"
               inject:rownum="*@idx">

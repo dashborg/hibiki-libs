@@ -119,12 +119,13 @@ function buildTask(libName) {
     };
 
     // DEV
-    gulp.task("sass:builddev:" + libName, () => {
+    let sassBuildDevTask = () => {
         return gulp.src(srcDir + "*.scss", {allowEmpty: true})
             .pipe(sass.sync().on("error", sass.logError))
             .pipe(gulp.dest(buildDirDev));
-    });
-    gulp.task("gulp:builddev:" + libName, () => {
+    };
+    gulp.task("sass:builddev:" + libName, sassBuildDevTask);
+    let gulpBuildDevTask = () => {
         let libVersion = readLibVersion(libFileName, buildDirDev, libName);
         let destDir = "./dist/libs/" + libName + "/" + libVersion + "/";
         let target = gulp.src(libFileName);
@@ -135,7 +136,8 @@ function buildTask(libName) {
             .pipe(inject(injectSources, {transform: transformFn}))
             .pipe(rename(baseName + ".dev.html"))
             .pipe(gulp.dest(destDir));
-    });
+    };
+    gulp.task("gulp:builddev:" + libName, gulpBuildDevTask);
     gulp.task("webpack:builddev:" + libName, () => {
         let jsFile = libJsIndexFile(libName);
         if (jsFile == null) {
@@ -186,10 +188,16 @@ function buildTask(libName) {
     // WATCH (dev)
     gulp.task("gulp:watch:" + libName, () => {
         watch([buildDirDev + "*.js", srcDir + "*.html", srcDir + "*.css", buildDirDev + "*.css"],
-              {queue: false, delay: 1000}, gulp.series("gulp:builddev:" + libName));
+              {queue: false, delay: 1000}, () => {
+                  console.log("gulp:watch:" + libName, "triggering gulp:builddev:" + libName);
+                  return gulpBuildDevTask();
+              });
     });
     gulp.task("sass:watch:" + libName, () => {
-        watch(srcDir + "*.scss", {queue: false, delay: 200}, gulp.series("sass:builddev:" + libName));
+        watch(srcDir + "*.scss", {queue: false, delay: 200}, () => {
+            console.log("sass:watch:" + libName, "triggering sass:builddev:" + libName);
+            return sassBuildDevTask();
+        });
     });
     gulp.task("webpack:watch:" + libName, () => {
         let jsFile = libJsIndexFile(libName);
