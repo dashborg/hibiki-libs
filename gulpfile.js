@@ -19,7 +19,11 @@ var del = require("del");
 var dayjs = require("dayjs");
 var cors = require("cors");
 
-let LIBS = ["hibiki/code-highlight", "hibiki/codemirror", "hibiki/bulma"];
+let LIBS = [
+    "hibiki/code-highlight",
+    "hibiki/codemirror",
+    "hibiki/bulma",
+];
 
 // # base, gulp-only tasks (files already in /build)
 // [gulp|sass|webpack]:builddev:[LIB]
