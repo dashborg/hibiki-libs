@@ -52,7 +52,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
   <define-component name="image">
     <figure class="image" automerge="@all|-src">
-      <img src="*$args.src">
+      <img automerge="img" html-src="*$args.src">
     </figure>
   </define-component>
 
