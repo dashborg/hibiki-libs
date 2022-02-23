@@ -23,6 +23,7 @@ let LIBS = [
     "hibiki/code-highlight",
     "hibiki/codemirror",
     "hibiki/bulma",
+    "hibiki/markdown",
 ];
 
 // # base, gulp-only tasks (files already in /build)
@@ -66,15 +67,27 @@ function libJsIndexFile(libName) {
     if (fs.existsSync(srcDir + "index.ts")) {
         return srcDir + "index.ts";
     }
+    if (fs.existsSync(srcDir + "index.tsx")) {
+        return srcDir + "index.tsx";
+    }
     if (fs.existsSync(srcDir + "index.js")) {
         return srcDir + "index.js";
+    }
+    if (fs.existsSync(srcDir + "index.jsx")) {
+        return srcDir + "index.jsx";
     }
     let baseName = path.basename(srcDir);
     if (fs.existsSync(srcDir + baseName + ".ts")) {
         return srcDir + baseName + ".ts";
     }
+    if (fs.existsSync(srcDir + baseName + ".tsx")) {
+        return srcDir + baseName + ".tsx";
+    }
     if (fs.existsSync(srcDir + baseName + ".js")) {
         return srcDir + baseName + ".js";
+    }
+    if (fs.existsSync(srcDir + baseName + ".jsx")) {
+        return srcDir + baseName + ".jsx";
     }
     return null;
 }
@@ -101,16 +114,18 @@ function buildTask(libName) {
     let baseName = path.basename(srcDir);
     let libFileName = path.resolve(srcDir, baseName + ".html");
     let transformFn = (filePath, file) => {
-        let contents = file.contents.toString("utf8");
         if (filePath.endsWith(".js")) {
-            let dataUri = "data:text/javascript;charset=utf-8;base64," + btoa(contents);
+            let base64Contents = file.contents.toString("base64");
+            let dataUri = "data:text/javascript;charset=utf-8;base64," + base64Contents;
             return "\n<script data-filepath=\"" + filePath + "\" src=\"" + dataUri + "\"></script>\n";
         }
         else if (filePath.endsWith(".css")) {
-            let dataUri = "data:text/css;charset=utf-8;base64," + btoa(contents);
+            let base64Contents = file.contents.toString("base64");
+            let dataUri = "data:text/css;charset=utf-8;base64," + base64Contents;
             return "\n<link data-filesource=\"" + filePath + "\" rel=\"stylesheet\" href=\"" + dataUri + "\">\n";
         }
         else if (filePath.endsWith(".html")) {
+            let contents = file.contents.toString("utf8");
             return "\n<!-- " + filePath + " -->\n" + contents + "\n\n";
         }
         else {

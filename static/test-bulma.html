@@ -373,7 +373,7 @@
               <local-example>
                 <div hibiki:innerhtml>
                   <b-file field autoname value.bindpath="$.inputs.file1" label="Upload File" filenameplaceholder="No File" icon="fa fa-upload"></b-file>
-                  <b-image if="$.inputs.file1.mimetype.match('^image/*')" class="is-128x128" src="*$.inputs.file1"></b-image>
+                  <b-image if="fn:match($.inputs.file1.mimetype.match, '^image/*')" class="is-128x128" src="*$.inputs.file1"></b-image>
                 </div>
               </local-example>
             </local-example-table>
