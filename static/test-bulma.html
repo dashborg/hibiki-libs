@@ -7,9 +7,10 @@
   </script>
   <script src="http://localhost:9000/hibiki-dev.js"></script>
   <body>
-      <template hibiki>
+    <template hibiki>
         <import-library lib="hibiki/bulma@v0.1.0" prefix="b"></import-library>
         <import-library lib="hibiki/code-highlight@v0.1.0" prefix="hl"></import-library>
+        <import-library lib="hibiki/markdown@v0.1.0" prefix="md"></import-library>
 
         <div class="hero is-info mb-3">
           <div class="hero-body">
@@ -178,22 +179,22 @@
 
             <local-section label="Buttons" anchor="buttons">
               <local-expando taglabel="b-button">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] icon">Set left-icon for this button</local-attr>
-                  <local-attr label="[attr] righticon">Set right-icon for this button</local-attr>
-                  <local-attr label="[attr] field">wrap in "field" and "control" divs</local-attr>
-                  <local-attr label="[attr] control">wrap in "control" div</local-attr>
-                  <local-attr label="[attr] helptext">set help-text for this button (only when 'field' is set)</local-attr>
-                  <local-attr label="[attr] buttoncomponent">change tag name for base button, default is "button" (e.g. "div" or "a")</local-attr>
-                  <local-attr label="[children]">all children without a slot will be set as the button's content</local-attr>
-                  <local-attr label="[children:slot=help]">used to set a complex help-text (overrides <i>helptext</i>)</local-attr>
-                  <local-attr label="[automerge]">modifies the base button</local-attr>
-                  <local-attr label="[automerge:control]">modifies the control-div</local-attr>
-                  <local-attr label="[automerge:field]">modifies the field-div</local-attr>
-                  <local-attr label="[automerge:icon]">modifies the icon span</local-attr>
-                  <local-attr label="[automerge:help]">modifies the help div</local-attr>
-                  <local-attr label="[event] click">fired when button is clicked</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[attr] icon** - Set left-icon for this button
+                  * **[attr] righticon** - Set right-icon for this button
+                  * **[attr] field** - wrap in "field" and "control" divs
+                  * **[attr] control** - wrap in "control" div
+                  * **[attr] helptext** - set help-text for this button (only when 'field' is set)
+                  * **[attr] buttoncomponent** - change tag name for base button, default is "button" (e.g. "div" or "a")
+                  * **[children]** - all children without a slot will be set as the button's content
+                  * **[children:slot=help]** - used to set a complex help-text (overrides <i>helptext</i>)
+                  * **[automerge]** - modifies the base button
+                  * **[automerge:control]** - modifies the control-div
+                  * **[automerge:field]** - modifies the field-div
+                  * **[automerge:icon]** - modifies the icon span
+                  * **[automerge:help]** - modifies the help div
+                  * **[event] click** - fired when button is clicked
+                </md-markdown>
               </local-expando>
 
             </local-section>
@@ -242,83 +243,83 @@
                 To add <i>input specific</i> attributes you just add them to the "b-" control.  e.g. if you add 'placeholder' or 'maxlength' to the &lt;b-input&gt; control it will set the raw &lt;input&gt;'s placeholder attribute because of <i>automerge</i>.  Remember to <i>close</i> all of these tags.  HTML allows raw &lt;input&gt; tags to not close, but &lt;b-input&gt; is a custom tag and must be closed.
               </p>
               <local-expando label="Common Attributes">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] label">sets label text (if a field)</local-attr>
-                  <local-attr label="[attr] helptext">sets help text (if a field)</local-attr>
-                  <local-attr label="[attr] field">wrap in "field" and "control" divs</local-attr>
-                  <local-attr label="[attr] control">wrap in "control" div</local-attr>
-                  <local-attr label="[children:slot=label]">sets complex label (if a field), overrides <i>label</i></local-attr>
-                  <local-attr label="[children:slot=help]">sets complex help-text (if a field), overrides <i>helptext</i></local-attr>
-                  <local-attr label="[automerge:control]">modifies the control-div</local-attr>
-                  <local-attr label="[automerge:field]">modifies the field-div</local-attr>
-                  <local-attr label="[automerge:label]">modifies the label</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[attr] label** - sets label text (if a field)
+                  * **[attr] helptext** - sets help text (if a field)
+                  * **[attr] field** - wrap in "field" and "control" divs
+                  * **[attr] control** - wrap in "control" div
+                  * **[children:slot=label]** - sets complex label (if a field), overrides <i>label</i>
+                  * **[children:slot=help]** - sets complex help-text (if a field), overrides <i>helptext</i>
+                  * **[automerge:control]** - modifies the control-div
+                  * **[automerge:field]** - modifies the field-div
+                  * **[automerge:label]** - modifies the label
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-input">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] value">the text value (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[attr] type">overrides the input type, default is 'text' (e.g. 'password', or 'number')</local-attr>
-                  <local-attr label="[attr] lefticon">sets the left-icon</local-attr>
-                  <local-attr label="[attr] righticon">sets the left-icon</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;input&gt;</local-attr>
-                  <local-attr label="[automerge:lefticon]">merges to the left-icon span</local-attr>
-                  <local-attr label="[automerge:righticon]">merges to the right-icon span</local-attr>
-                  <local-attr label="[event] change">fired when value changes</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] value** - the text value (2-way or 1-way binding)
+                  * **[attr] type** - overrides the input type, default is 'text' (e.g. 'password', or 'number')
+                  * **[attr] lefticon** - sets the left-icon
+                  * **[attr] righticon** - sets the left-icon
+                  * **[automerge]** - merges to the &lt;input&gt;
+                  * **[automerge:lefticon]** - merges to the left-icon span
+                  * **[automerge:righticon]** - merges to the right-icon span
+                  * **[event] change** - fired when value changes
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-select">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] value">the text value (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[attr] lefticon">sets the left-icon</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;select&gt;</local-attr>
-                  <local-attr label="[automerge:selectdiv]">merges to the div wrapped around the &lt;select&gt; (class 'select')</local-attr>
-                  <local-attr label="[automerge:lefticon]">merges to the left icon span</local-attr>
-                  <local-attr label="[event] change">fired when value changes</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] value** - the text value (2-way or 1-way binding)
+                  * **[attr] lefticon** - sets the left-icon
+                  * **[automerge]** - merges to the &lt;select&gt;
+                  * **[automerge:selectdiv]** - merges to the div wrapped around the &lt;select&gt; (class 'select')
+                  * **[automerge:lefticon]** - merges to the left icon span
+                  * **[event] change** - fired when value changes
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-checkbox">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] formvalue">form value set from selected radio button's 'value' attribute (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;input type="radio"&gt;</local-attr>
-                  <local-attr label="[event] change">fired when radio button becomes selected</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] formvalue** - form value set from selected radio button's 'value' attribute (2-way or 1-way binding)
+                  * **[automerge]** - merges to the &lt;input type="radio"&gt;
+                  * **[event] change** - fired when radio button becomes selected
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-radio">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] formvalue">form value set from selected radio buttons' 'value' attribute [string array] (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;input type="checkbox"&gt;</local-attr>
-                  <local-attr label="[event] change">fired when checkbox changes state</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] formvalue** - form value set from selected radio buttons' 'value' attribute [string array] (2-way or 1-way binding)
+                  * **[automerge]** - merges to the &lt;input type="checkbox"&gt;
+                  * **[event] change** - fired when checkbox changes state
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-textarea">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] value">text value (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;textarea&gt;</local-attr>
-                  <local-attr label="[event] change">fired when textbox changes state</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] value** - text value (2-way or 1-way binding)
+                  * **[automerge]** - merges to the &lt;textarea&gt;
+                  * **[event] change** - fired when textbox changes state
+                </md-markdown>
               </local-expando>
 
               <local-expando taglabel="b-file">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] autoname">after the user uploads a file, sets the filename to the name of the uploaded file automatically</local-attr>
-                  <local-attr label="[attr] filename">sets the filename text</local-attr>
-                  <local-attr label="[attr] filenameplaceholder">sets the filename text when 'autoname' is set, and no file has been uploaded</local-attr>
-                  <local-attr label="[attr] icon">sets the label/cta (call-to-action) icon</local-attr>
-                  <local-attr label="[bindable attr] value">file value [blob] (output only binding)</local-attr>
-                  <local-attr label="[children:slot=filename]">sets complex file name (overrides filename)</local-attr>
-                  <local-attr label="[automerge]">merges to the &lt;input type="file"&gt;</local-attr>
-                  <local-attr label="[automerge:file]">merges to the file-div (that wraps the file-label div)</local-attr>
-                  <local-attr label="[automerge:cta]">merges to the cta (call-to-action) div</local-attr>
-                  <local-attr label="[automerge:icon]">merges to the file-icon span</local-attr>
-                  <local-attr label="[automerge:filelabel]">merges to the file-label span</local-attr>
-                  <local-attr label="[automerge:filename]">merges to the file-name span</local-attr>
-                  <local-attr label="[event] change">fired when input changes state (file uploaded)</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[attr] autoname** - after the user uploads a file, sets the filename to the name of the uploaded file automatically
+                  * **[attr] filename** - sets the filename text
+                  * **[attr] filenameplaceholder** - sets the filename text when 'autoname' is set, and no file has been uploaded
+                  * **[attr] icon** - sets the label/cta (call-to-action) icon
+                  * **[bindable attr] value** - file value [blob] (output only binding)
+                  * **[children:slot=filename]** - sets complex file name (overrides filename)
+                  * **[automerge]** - merges to the &lt;input type="file"&gt;
+                  * **[automerge:file]** - merges to the file-div (that wraps the file-label div)
+                  * **[automerge:cta]** - merges to the cta (call-to-action) div
+                  * **[automerge:icon]** - merges to the file-icon span
+                  * **[automerge:filelabel]** - merges to the file-label span
+                  * **[automerge:filename]** - merges to the file-name span
+                  * **[event] change** - fired when input changes state (file uploaded)
+                </md-markdown>
               </local-expando>
             </local-section>
 
@@ -380,14 +381,14 @@
 
             <local-section label="Notifications" anchor="notifications">
               <local-expando taglabel="b-notification">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] hasdelete">add the delete (x)</local-attr>
-                  <local-attr label="[bindable attr] show">show or hide the notification (2-way or 1-way binding). If no 'show' attribute is provided, the notification will show by default and then hide itself if the delete is clicked.</local-attr>
-                  <local-attr label="[automerge]">merges to the wrapper 'notification' div</local-attr>
-                  <local-attr label="[automerge:delete]">merges to the delete button</local-attr>
-                  <local-attr label="[children]">the notification content</local-attr>
-                  <local-attr label="[event] delete">fired when delete button is clicked</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[attr] hasdelete** - add the delete (x)
+                  * **[bindable attr] show** - show or hide the notification (2-way or 1-way binding). If no 'show' attribute is provided, the notification will show by default and then hide itself if the delete is clicked.
+                  * **[automerge]** - merges to the wrapper 'notification' div
+                  * **[automerge:delete]** - merges to the delete button
+                  * **[children]** - the notification content
+                  * **[event] delete** - fired when delete button is clicked
+                </md-markdown>
               </local-expando>
             </local-section>
             
@@ -412,14 +413,14 @@
 
             <local-section label="Tags" anchor="tags">
               <local-expando taglabel="b-tag">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] hasdelete">add the delete (x)</local-attr>
-                  <local-attr label="[automerge]">merges to the wrapper 'tag' div</local-attr>
-                  <local-attr label="[automerge:delete]">merges to the delete button</local-attr>
-                  <local-attr label="[children]">the tag content/text</local-attr>
-                  <local-attr label="[event] click">fired when tag is clicked</local-attr>
-                  <local-attr label="[event] delete">fired when delete button is clicked</local-attr>
-                </html-ul>
+                <md-markdown>
+                  * **[attr] hasdelete** - add the delete (x)
+                  * **[automerge]** - merges to the wrapper 'tag' div
+                  * **[automerge:delete]** - merges to the delete button
+                  * **[children]** - the tag content/text
+                  * **[event] click** - fired when tag is clicked
+                  * **[event] delete** - fired when delete button is clicked
+                </md-markdown>
               </local-expando>
             </local-section>
 
@@ -444,16 +445,15 @@
 
             <local-section label="Progress" anchor="progress">
               <local-expando taglabel="b-progress">
-                <p>
+                <md-markdown hibiki:ws>
                   Setting the attributes 'value' and 'max' set the progress bar amount.  These are
-                  <i>automerged</i> to the progress div (like all other attributes which is
+                  *automerged* to the progress div (like all other attributes which is
                   why they aren't listed).  If value is null
                   the progress bar will cycle.
-                </p>
-                <html-ul class="mt-1">
-                  <local-attr label="[automerge]">merges to the wrapper 'progress' div</local-attr>
-                  <local-attr label="[children]">the children of progress div (does not show visually)</local-attr>
-                </html-ul>
+
+                  * **[automerge]** - merges to the wrapper 'progress' div
+                  * **[children]** - the children of progress div (does not show visually)
+                </md-markdown>
               </local-expando>
             </local-section>
             <local-example-table>
@@ -466,29 +466,28 @@
 
             <local-section label="Tabs" anchor="tabs">
               <local-expando taglabel="b-tabs">
-                <html-ul class="mt-1">
-                  <local-attr label="[bindable attr] curtab">the current tab value (2-way or 1-way data binding)</local-attr>
-                  <local-attr label="[attr] showcontent">if true, will show each b-tab's children when the tab is selected</local-attr>
-                  <local-attr label="[automerge]">merges to the wrapper 'tabs' div</local-attr>
-                  <local-attr label="[automerge:content]">merges to the content div</local-attr>
-                  <local-attr label="[children:&lt;b-tab>]">Will only accept &lt;b-tab&gt; tags as children</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] curtab** - the current tab value (2-way or 1-way data binding)
+                  * **[attr] showcontent** - if true, will show each b-tab's children when the tab is selected
+                  * **[automerge]** - merges to the wrapper 'tabs' div
+                  * **[automerge:content]** - merges to the content div
+                  * **[children:&lt;b-tab&gt;]** Will only accept &lt;b-tab&gt; tags as children
+                </md-markdown>
               </local-expando>
               <local-expando taglabel="b-tab">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] value">
-                    The 'value' for this tab.  Integrates with b-tabs.  Makes these tab components
+                <md-markdown hibiki:ws>
+                  * **[attr] value** - The 'value' for this tab.  Integrates with b-tabs.
+                    Makes these tab components
                     function like radio buttons with 2-way data-binding against b-tabs's curtab attribute.
-                  </local-attr>
-                  <local-attr label="[injected attr] active">
-                    This attribute is managed by the b-tabs component.
+
+                  * **[injected attr] active** - This attribute is managed by the b-tabs component.
                     If you use b-tab without the b-tabs component, then you can use the 'active' attribute
                     to set the active tab manually.
-                  </local-attr>
-                  <local-attr label="[automerge]">merges to the wrapper 'tab' li</local-attr>
-                  <local-attr label="[automerge:content]">merges to the content div</local-attr>
-                  <local-attr label="[children:noslot]">Tab content (only shown when integrated with b-tabs with 'showcontent' set)</local-attr>
-                </html-ul>
+
+                  * **[automerge]** - merges to the wrapper 'tab' li
+                  * **[automerge:content]** - merges to the content div
+                  * **[children:noslot]** - Tab content (only shown when integrated with b-tabs with 'showcontent' set)
+                </md-markdown>
               </local-expando>
             </local-section>
             <local-example-table>
@@ -678,12 +677,12 @@
                 of creating Bulma horitzonal fields (see 3rd example below).
               </p>
               <local-expando taglabel="b-hfield">
-                <html-ul class="mt-1">
-                  <local-attr label="[attr] label">text value (2-way or 1-way binding)</local-attr>
-                  <local-attr label="[children:slot=label]">complex label (overrides label)</local-attr>
-                  <local-attr label="[automerge:label]">merges to label</local-attr>
-                  <local-attr label="[automerge:body]">merges to field-body</local-attr>
-                </html-ul>
+                <md-markdown hibiki:ws>
+                  * **[attr] label** - text value (2-way or 1-way binding)
+                  * **[children:slot=label]** - complex label (overrides label)
+                  * **[automerge:label]** - merges to label
+                  * **[automerge:body]** - merges to field-body
+                </md-markdown>
               </local-expando>
             </local-section>
             
@@ -836,7 +835,7 @@
         </define-component>
 
         <define-component name="expando">
-          <div class="mt-4">
+          <div class="mt-4 expando">
             <a class="has-text-link has-text-weight-bold" click.handler="$c.expanded = !$c.expanded;">
               <h-fragment if="$args.taglabel">&lt;{{ $args.taglabel }}&gt; Attributes</h-fragment>
               <h-fragment if="$args.label">{{ $args.label }}</h-fragment>
@@ -862,6 +861,7 @@
         .red { color: red; }
         .blue { color: blue; }
         .green { color: green; }
+        .expando ul { margin-top: 0.5rem !important; }
       </style>
   </body>
 </html>
