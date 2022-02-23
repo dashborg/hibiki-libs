@@ -27,7 +27,6 @@ const DEFAULT_BEAUTIFY_OPTS = {
 function highlight(req) {
     let uuid = req.data.id;
     let elem = document.getElementById(uuid);
-    console.log("highlight", uuid, elem, req.data);
     if (elem == null) {
         return null;
     }
@@ -50,8 +49,8 @@ function highlight(req) {
             beautifyOpts = Object.assign(beautifyOpts, userOptsVal);
         }
         let textContent = elem.textContent ?? "";
-        console.log("beautify", beautifyOpts);
-        elem.textContent = html_beautify(textContent, beautifyOpts);
+        let beautifyOutput = html_beautify(textContent, beautifyOpts);
+        elem.textContent = beautifyOutput;
     }
     window.hljs.highlightElement(elem);
 }

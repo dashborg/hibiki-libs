@@ -7,14 +7,15 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 <define-library name="hibiki/bulma" version="v0.1.0" hibikiversion="v0.3.1" build>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <define-component name="button">
     <div class="field" unwrap="!$args.field" automerge="field">
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control">
-        <button component="*$args.buttoncomponent" class="button" automerge click.handler="fire->click()">
+        <button component="*$args.buttoncomponent" class="button" automerge click.handler="fire->click()" hibiki:ws="0">
           <span if="$args.icon" class="icon" automerge="icon"><i class="*$args.icon"></i></span>
           <h-fragment if="($args.icon || $args.righticon) && @children.size">
-            <span><h-children bind="@children"></h-children></span>
+            <span><h-children bind="@children.noslot"></h-children></span>
           </h-fragment>
           <h-fragment if="!($args.icon || $args.righticon)">
             <h-children bind="@children.noslot"></h-children>
@@ -48,6 +49,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
   <define-component name="icon">
     <span class="icon" automerge><i class="*$args.icon"></i></span>
+    <span if="$args.text">{{ $args.text }}</span>
   </define-component>
 
   <define-component name="image">
@@ -67,7 +69,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       @show = raw($args.show) ?? ref($c.show);
     </define-vars>
     <div if="@show" class="notification" automerge>
-      <button if="$args.hasdelete" click.handler="@show = false; fire->delete()" class="delete"></button>
+      <button if="$args.hasdelete" click.handler="@show = false; fire->delete()" class="delete" automerge="delete"></button>
       <h-children bind="@children"></h-children>
     </div>
   </define-component>
@@ -83,6 +85,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="tag">
     <span component="*$args.tagcomponent" class="tag" automerge click.handler="fire->click()">
       <h-children bind="@children"></h-children>
+      <button if="$args.hasdelete" automerge="delete" class="delete" click.handler="fire->delete()"></button>
     </span>
   </define-component>
 
@@ -108,7 +111,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   </define-component>
 
   <define-component name="crumb">
-    <div component="li" class.is-active="*$args.active">
+    <div automerge="li" component="li" class.is-active="*$args.active">
       <a automerge="@all|-active" click.handler="fire->click()"><h-children bind="@children"></h-children></a>
     </div>
   </define-component>
@@ -126,7 +129,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       <div class="card-image" if="@children.byslot['image'].size" automerge="image">
         <h-children bind="@children.byslot['image']"></h-children>
       </div>
-      <div class="* ($args.modal ? 'modal-card-body' : 'card-content')" if="@children.noslot.size" automerge="content">
+      <div class="* ($args.modal ? 'modal-card-body' : 'card-content')" if="@children.tags.noslot.size" automerge="content">
         <h-children bind="@children.noslot"></h-children>
       </div>
       <div class="* ($args.modal ? 'modal-card-foot' : 'card-footer')" if="@children.byslot['footer'].size || @children.byslot['footer-item'].size" automerge="footer">
@@ -144,9 +147,9 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       @curvalue = raw($args.value) ?? ref($c.curvalue);
       @activechildren = invoke(@children.bycomp["hibiki/bulma:option"].filter, lambda(@node.attrs.value == @curvalue));
     </define-vars>
-    <div class="dropdown" automerge class.is-active="* @active" active="*@active" hibiki-mark>
+    <div class="dropdown" automerge class.is-active="* @active" active="*@active">
       <div class="dropdown-trigger">
-        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" click.handler="@active = !@active">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" click.handler="log('dropdown-click'); @active = !@active">
           <h-children if="@activechildren.size" bind="@activechildren.first" inject:mode="label"></h-children>
           <h-fragment if="!@activechildren.size">
             <span if="$args.label">{{ $args.label }}</span>
@@ -281,7 +284,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       @show = raw($args.show) ?? ref($c.show);
     </define-vars>
     <div if="@show" class="message" automerge>
-      <div hibiki-mark class="message-header" if="@children.byslot.header.size || $args.title" automerge="header">
+      <div class="message-header" if="@children.byslot.header.size || $args.title" automerge="header">
         <h-children text="*$args.title" bind="@children.byslot['header']"></h-children>
         <button if="$args.hasdelete" click.handler="@show = false; fire->delete()" class="delete"></button>
       </div>
@@ -313,9 +316,9 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <local-modal show="*@show">
       <h-children bind="@children.noslot"></h-children>
     </local-modal>
-    <button if="!$.show_modal" class="button" automerge="button" click.handler="@show = true;">
+    <local-button if="!$.show_modal" class="button" automerge="button" click.handler="@show = true;">
       <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
-    </button>
+    </local-button>
   </define-component>
 
   <define-component name="pager">
@@ -340,13 +343,13 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       fire->update_sliceargs();
     </define-handler>
     <div class="buttons has-addons" automerge>
-      <local-button icon="fa fa-angle-double-left" disabled="* @start <= 0" click.handler="fire->change(value=0)">First</local-button>
-      <local-button class="is-static" style="background-color: white; color: black;">
+      <local-button automerge="first" icon="fa fa-angle-double-left" disabled="* @start <= 0" click.handler="fire->change(value=0)">First</local-button>
+      <local-button automerge="showing" class="is-static" style="background-color: white; color: black;">
         {{ $args.label ?? 'Showing' }} {{ @start+1 }}-{{ @end+1 }} of {{ $args.totalsize }}
       </local-button>
-      <local-button icon="fa fa-angle-left" disabled="* @start <= 0" click.handler="fire->change(value=$args.curpage-1)">Prev</local-button>
-      <local-button righticon="fa fa-angle-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=$args.curpage+1)">Next</local-button>
-      <local-button righticon="fa fa-angle-double-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=@lastpage)">Last</local-button>
+      <local-button automerge="prev" icon="fa fa-angle-left" disabled="* @start <= 0" click.handler="fire->change(value=$args.curpage-1)">Prev</local-button>
+      <local-button automerge="next" righticon="fa fa-angle-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=$args.curpage+1)">Next</local-button>
+      <local-button automerge="last" righticon="fa fa-angle-double-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=@lastpage)">Last</local-button>
     </div>
   </define-component>
 
@@ -356,7 +359,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     </define-vars>
     <div class="buttons has-addons" automerge>
       <local-button if="$args.showfirst" icon="fa fa-angle-double-left" automerge="first" disabled="* $args.start <= 0" click.handler="fire->clickfirst()">First</local-button>
-      <local-button class="is-static" style="background-color: white; color: black;">
+      <local-button automerge="showing" class="is-static" style="background-color: white; color: black;">
         {{ $args.label ?? 'Showing' }} {{ $args.start+1 }}-{{ @last + 1 }}
       </local-button>
       <local-button if="$args.showprev" icon="fa fa-angle-left" disabled="* $args.start <= 0" automerge="prev" click.handler="fire->clickprev()">Prev</local-button>
@@ -384,7 +387,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <html-li if="$args.mode == 'tab'" automerge class.is-active="*$args.active">
       <a automerge="a" click.handler="fire->change(value=$args.value);"><h-children text="*$args.label" bind="@children.byslot['label']"></h-children></a>
     </html-li>
-    <div if="$args.mode == 'content'">
+    <div if="$args.mode == 'content'" automerge="content">
       <h-children bind="@children.noslot"></h-children>
     </div>
   </define-component>
@@ -471,7 +474,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
         <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
       </label>
       <div class="control" unwrap="!$args.field && !$args.control" class.has-icons-left="*$args.lefticon" class.has-icons-right="*$args.righticon" automerge="control">
-        <input automerge="@all|-field|-control|-label|-lefticon|-righticon|-help|!type" class="input" type="text">
+        <input automerge="@all|-field|-control|-label|-lefticon|-righticon|-help|!type" class="input" type="text" change.handler="fire->change(@value)">
         <span if="$args.lefticon" class="icon is-small is-left" automerge="lefticon">
           <i class="*$args.lefticon"></i>
         </span>
@@ -491,7 +494,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
         <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
       </label>
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control">
-        <textarea automerge="@all|-field|-control|-label" class="textarea"></textarea>
+        <textarea automerge="@all|-field|-control|-label" class="textarea" change.handler="fire->change(@value)"></textarea>
       </div>
       <p class="help" automerge="help" if="$args.field && ($args.helptext || @children.byslot['help'].size)">
         <h-children text="*$args.helptext" bind="@children.byslot['help']"></h-children>
@@ -502,8 +505,8 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="checkbox">
     <div class="field" unwrap="!$args.field" automerge="field">
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control">
-        <label class="checkbox">
-          <input type="checkbox" automerge="@all|-field|-control|-label" class="checkbox">
+        <label class="checkbox" automerge="label">
+          <input type="checkbox" automerge="@all|-field|-control|-label" class="checkbox" change.handler="fire->change(@value)">
           <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
         </label>
       </div>
@@ -516,8 +519,8 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   <define-component name="radio">
     <div class="field" unwrap="!$args.field" automerge="field">
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control">
-        <label class="radio">
-          <input type="radio" automerge="@all|-field|-control|-label" class="checkbox">
+        <label class="radio" automerge="label">
+          <input type="radio" automerge="@all|-field|-control|-label" class="checkbox" change.handler="fire->change(@value)">
           <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
         </label>
       </div>
@@ -534,7 +537,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       </label>
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control" class.has-icons-left="*$args.lefticon">
         <div class="select" automerge="selectdiv">
-          <html-select automerge="@all|-lefticon|-field|-control">
+          <html-select automerge="@all|-lefticon|-field|-control" change.handler="fire->change(@value)">
             <h-children bind="@children.noslot"></h-children>
           </html-select>
         </div>
@@ -553,7 +556,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       <div class="control" unwrap="!$args.field && !$args.control" automerge="control">
         <div class="file" automerge="file" class.has-name="$args.filename != null || @children.byslot['filename'].size">
           <label class="file-label" automerge="label">
-            <input class="file-input" type="file" automerge="@all|-autoname">
+            <input class="file-input" type="file" automerge="@all|-autoname" change.handler="fire->change(@value)">
             <span class="file-cta" automerge="cta">
               <span if="$args.icon" class="file-icon" automerge="icon">
                 <i class="*$args.icon"></i>
@@ -562,10 +565,10 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
                 <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
               </span>
             </span>
-            <span if="$args.filename != null || @children.byslot['filename'].size" class="file-name">
+            <span if="$args.filename != null || @children.byslot['filename'].size" class="file-name" automerge="filename">
               <h-children text="*$args.filename" bind="@children.byslot['filename']"></h-children>
             </span>
-            <span if="$args.autoname" class="file-name">
+            <span if="$args.autoname" class="file-name" automerge="filename">
               {{ ($args.value == null ? $args.filenameplaceholder : fn:blobname($args.value)) }}
             </span>
           </label>

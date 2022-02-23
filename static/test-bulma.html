@@ -1,0 +1,872 @@
+<html>
+  <script>
+    window.HibikiGlobalConfig = {
+        libraryRoot: ["/libs/"],
+        useDevLibraryBuilds: true,
+    };
+  </script>
+  <script src="http://localhost:9000/hibiki-dev.js"></script>
+  <body>
+      <template hibiki>
+        <import-library lib="hibiki/bulma@v0.1.0" prefix="b"></import-library>
+        <import-library lib="hibiki/code-highlight@v0.1.0" prefix="hl"></import-library>
+
+        <div class="hero is-info mb-3">
+          <div class="hero-body">
+            <p class="title">&#x1f338; Hibiki HTML + Bulma Components</p>
+          </div>
+        </div>
+        <div class="columns is-fullheight" style="border-top: 2px solid #f5f5f5">
+          <div class="column" style="flex-grow: 0; border-right: 2px solid #f5f5f5;">
+            <div style="position: sticky; top: 0">
+            <b-menu style="width: 150px;" class="pl-2" selected.bindpath="$.menu_selected">
+              <b-menulabel>General</b-menulabel>
+              <b-menulist>
+                <b-menuitem a:href="#installation" value="installation">Installation</b-menuitem>
+                <b-menuitem a:href="#automerge" value="automerge">Automerge</b-menuitem>
+              </b-menulist>
+              <b-menulabel>Components</b-menulabel>
+              <b-menulist>
+                <b-menuitem a:href="#buttons" value="buttons">Buttons</b-menuitem>
+                <b-menuitem a:href="#inputs" value="inputs">Inputs</b-menuitem>
+                <b-menuitem a:href="#notifications" value="notifications">Notifications</b-menuitem>
+                <b-menuitem a:href="#tags" value="tags">Tags</b-menuitem>
+                <b-menuitem a:href="#progress" value="progess">Progress</b-menuitem>
+                <b-menuitem a:href="#tabs" value="tabs">Tabs</b-menuitem>
+                <b-menuitem a:href="#breadcrumb" value="breadcrumb">Breadcrumb</b-menuitem>
+                <b-menuitem a:href="#card" value="card">Card</b-menuitem>
+                <b-menuitem a:href="#dropdown" value="dropdown">Dropdown</b-menuitem>
+                <b-menuitem a:href="#message" value="message">Message</b-menuitem>
+                <b-menuitem a:href="#modal" value="modal">Modal</b-menuitem>
+                <b-menuitem a:href="#pagination" value="pagination">Pagination</b-menuitem>
+                <b-menuitem a:href="#forms" value="forms">Forms</b-menuitem>
+              </b-menulist>
+            </b-menu>
+            </div>
+          </div>
+          <div class="contaner column">
+            <div class="columns">
+              <div class="content column" style="border-right: 1px solid #e7e7e7">
+                <p>
+                  Hibiki HTML wrappers for the excellent
+                  <a class="has-text-weight-bold" href="https://bulma.io/" target="_blank">Bulma UI Library</a>!
+                </p>
+                <p>
+                  You should know the Bulma UI basics.  Because Hibiki HTML <i>is</i> HTML you can
+                  continue to use any regular bulma structures like "columns", color helpers, and
+                  layout without any modification.  So why use these wrappers?
+                </p>
+                <ul>
+                  <li><b>Reduce Boilerplate</b> - Some Bulma structures (like form fields) require extra levels of boilerplate ("field" and "control" divs).  These wrappers can help with that boilerplate.
+                  <li><b>Dynamic Controls</b> - Want messages or notifications that disappear when you click them, buttons to trigger modals, pass form fields to AJAX calls, or create tabs and menus that show dynamic content?  Easily integrate with the Hibiki HTML data-model with 2-way or 1-way data binding!
+                  <li><b>Components</b> - Use these controls as a starting point, or wrap your own!  Easily use Hibiki's &lt;define-component&gt; syntax to create a complex control out of Bulma's building blocks.
+                </ul>
+              </div>
+              <div class="column">
+                <div class="box">
+                  <a href="https://bulma.io" target="_blank">
+                    <img src="https://bulma.io/images/bulma-logo.png" style="height: 50px;">
+                  </a>
+                </div>
+                <div class="box">
+                  <a href="https://hibikihtml.com" target="_blank">
+                    <div class="title">&#x1f338; Hibiki HTML</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <local-section label="Installation" anchor="installation">
+              <p>
+                Create a standard Hibiki App, and then import the Hibiki HTML Bulma
+                library:
+              </p>
+              <pre class="p-3 mt-2"><code hibiki:ws="trim">
+&lt;script src="https://cdn.hibikihtml.com/hibiki/v0.3.1/hibiki-prod.min.js">&lt;/script>
+&lt;template hibiki>
+  &lt;import-library lib="hibiki/bulma@v0.1.0" prefix="b">&lt;/import-library>
+  ...
+&lt;/template>
+              </code></pre>
+            </local-section>
+
+            <local-section label="Automerge" anchor="automerge">
+              <p class="mr-6">Hibiki HTML components are customized by setting attributes, adding handlers, or
+              adding children tags.  All of these components use Hibiki HTML's <i>automerge</i>
+                functionality to allow you to further customize the internal structure of the component.</p>
+
+              <p class="mr-6"><b>Automerge</b> -- consider the &lt;b&#8209;button&gt; control.  At its simpliest it just
+                outputs a single div: <code>&lt;div class="button">...&lt;/div></code>.  If you
+                set a <code>class</code> or <code>style</code> on the <code>&lt;b&#8209;button></code>
+                component it will add merge those classes and styles to that base button div.
+              </p>
+
+              <local-explain class="mr-6">
+                <code slot="hibiki" hibiki:ws="trim">
+&lt;b-button class="<span class="blue">is-primary</span>">Test&lt;/b-button>
+&lt;b-button style="<span class="blue">font-style: italic;</span>">Test&lt;/b-button>
+                </code>
+                <code slot="html" hibiki:ws="trim">
+&lt;button class="button <span class="blue">is-primary</span>">Test&lt;/button>
+&lt;button class="button" style="<span class="blue">font-style: italic;</span>">Test&lt;/button>
+                </code>
+              </local-explain>
+
+              <p>
+                Automerge copies regular attributes as well.  To set a 'placeholde', 'maxlength'
+                or override &lt;input&gt;'s type, you can set attributes on the &lt;b-input&gt;
+                tag and they will be set on the raw &lt;input&gt; tag.
+              </p>
+
+              <local-explain class="mr-6 mt-4">
+                <code slot="hibiki" hibiki:ws="trim">
+&lt;b-input control <span class="green">type="password</span>" <span class="blue">placeholder="Name</span>">&lt;/b-input>
+                </code>
+                <code slot="html" hibiki:ws="trim">
+&lt;div class="control">
+  &lt;input class="input" <span class="green">type="password</span>" <span class="blue">placeholder="Name</span>"&gt;
+&lt;/div>                  
+                </code>
+              </local-explain>
+
+              <p class="mr-6">
+                <b>Automerge Namespaces</b> --
+                But what about a more complex case where we have a button wrapped in a "control" div
+                wrapped in a "field" div, with an icon?  These components all have
+                <i>automerge namespaces</i> set up so <code>field:class</code> will target
+                the "field" div, and <code>icon:style</code> will target the icon span.
+                The <i>automerge namespaces</i> are documented with the controls.
+              </p>
+              <local-explain class="mr-6">
+                <code slot="hibiki" hibiki:ws="trim">
+&lt;b-button field field:class="<span class="blue">is-narrow</span>" 
+  icon="<span class="green">fa fa-home</span>" icon:style="<span class="green">color: green</span>">
+  Test
+&lt;/b-button>
+                </code>
+                <code slot="html" hibiki:ws="trim">
+&lt;div class="field <span class="blue">is-narrow</span>">
+  &lt;div class="control">
+    &lt;button class="button">
+      &lt;span class="icon" automerge="icon">
+        &lt;i class="<span class="green">fa fa-home</span>" style="<span class="green">color: green"</span>>&lt;/i>
+      &lt;/span>
+      Test
+    &lt;/button>
+  &lt;/div>
+&lt;/div>
+                </code>
+              </local-explain>
+              <local-explain class="mr-6 mt-4">
+                <code slot="hibiki" hibiki:ws="trim">
+&lt;b-card title="Card Layout" header:class="<span class="blue">has-background-info-light</span>">
+  &lt;p>Some Card Text&lt;/p>
+&lt;/b-card>
+                </code>
+                <code slot="html" hibiki:ws="trim">
+&lt;div title="Card Layout" class="card">
+  &lt;div class="card-header <span class="blue">has-background-info-light</span>">
+    &lt;p class="card-header-title">Card Layout&lt;/p>
+  &lt;/div>
+  &lt;div class="card-content">
+    &lt;p>Some Card Text&lt;/p>
+  &lt;/div>
+&lt;/div>
+                </code>
+              </local-explain>
+            </local-section>
+
+            <local-section label="Buttons" anchor="buttons">
+              <local-expando taglabel="b-button">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] icon">Set left-icon for this button</local-attr>
+                  <local-attr label="[attr] righticon">Set right-icon for this button</local-attr>
+                  <local-attr label="[attr] field">wrap in "field" and "control" divs</local-attr>
+                  <local-attr label="[attr] control">wrap in "control" div</local-attr>
+                  <local-attr label="[attr] helptext">set help-text for this button (only when 'field' is set)</local-attr>
+                  <local-attr label="[attr] buttoncomponent">change tag name for base button, default is "button" (e.g. "div" or "a")</local-attr>
+                  <local-attr label="[children]">all children without a slot will be set as the button's content</local-attr>
+                  <local-attr label="[children:slot=help]">used to set a complex help-text (overrides <i>helptext</i>)</local-attr>
+                  <local-attr label="[automerge]">modifies the base button</local-attr>
+                  <local-attr label="[automerge:control]">modifies the control-div</local-attr>
+                  <local-attr label="[automerge:field]">modifies the field-div</local-attr>
+                  <local-attr label="[automerge:icon]">modifies the icon span</local-attr>
+                  <local-attr label="[automerge:help]">modifies the help div</local-attr>
+                  <local-attr label="[event] click">fired when button is clicked</local-attr>
+                </html-ul>
+              </local-expando>
+
+            </local-section>
+
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-button>Default Button</b-button>
+                </div>
+              </local-example>
+              <local-example>
+                  <div hibiki:innerhtml>
+                    <div class="buttons" hibiki:ws>
+                      <b-button class="is-primary">Primary Button</b-button>
+                      <b-button class="is-info">Info Button</b-button>
+                      <b-button class="is-danger">Danger Button</b-button>
+                    </div>
+                  </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <div class="buttons has-addons" hibiki:ws>
+                    <b-button class="is-success is-selected">Yes</b-button>
+                    <b-button>Maybe</b-button>
+                    <b-button>No</b-button>
+                  </div>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-button class="is-info is-rounded is-large" icon="fa fa-github">
+                    Primary Button
+                  </b-button>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Inputs" anchor="inputs">
+              <p>
+                For the most part, these input controls mimic the functionality of the
+                base input controls (<i>automerge</i> targets the base &lt;input&gt;).
+                See the basic input 1-way and 2-way data binding here in the
+                <a href="https://docs.hibikihtml.com/reference/input-controls/" target="_blank">Input Controls Hibiki Reference Docs</a>.
+              </p>
+              <p>
+                To add <i>input specific</i> attributes you just add them to the "b-" control.  e.g. if you add 'placeholder' or 'maxlength' to the &lt;b-input&gt; control it will set the raw &lt;input&gt;'s placeholder attribute because of <i>automerge</i>.  Remember to <i>close</i> all of these tags.  HTML allows raw &lt;input&gt; tags to not close, but &lt;b-input&gt; is a custom tag and must be closed.
+              </p>
+              <local-expando label="Common Attributes">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] label">sets label text (if a field)</local-attr>
+                  <local-attr label="[attr] helptext">sets help text (if a field)</local-attr>
+                  <local-attr label="[attr] field">wrap in "field" and "control" divs</local-attr>
+                  <local-attr label="[attr] control">wrap in "control" div</local-attr>
+                  <local-attr label="[children:slot=label]">sets complex label (if a field), overrides <i>label</i></local-attr>
+                  <local-attr label="[children:slot=help]">sets complex help-text (if a field), overrides <i>helptext</i></local-attr>
+                  <local-attr label="[automerge:control]">modifies the control-div</local-attr>
+                  <local-attr label="[automerge:field]">modifies the field-div</local-attr>
+                  <local-attr label="[automerge:label]">modifies the label</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-input">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] value">the text value (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[attr] type">overrides the input type, default is 'text' (e.g. 'password', or 'number')</local-attr>
+                  <local-attr label="[attr] lefticon">sets the left-icon</local-attr>
+                  <local-attr label="[attr] righticon">sets the left-icon</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;input&gt;</local-attr>
+                  <local-attr label="[automerge:lefticon]">merges to the left-icon span</local-attr>
+                  <local-attr label="[automerge:righticon]">merges to the right-icon span</local-attr>
+                  <local-attr label="[event] change">fired when value changes</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-select">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] value">the text value (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[attr] lefticon">sets the left-icon</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;select&gt;</local-attr>
+                  <local-attr label="[automerge:selectdiv]">merges to the div wrapped around the &lt;select&gt; (class 'select')</local-attr>
+                  <local-attr label="[automerge:lefticon]">merges to the left icon span</local-attr>
+                  <local-attr label="[event] change">fired when value changes</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-checkbox">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] formvalue">form value set from selected radio button's 'value' attribute (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;input type="radio"&gt;</local-attr>
+                  <local-attr label="[event] change">fired when radio button becomes selected</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-radio">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] formvalue">form value set from selected radio buttons' 'value' attribute [string array] (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;input type="checkbox"&gt;</local-attr>
+                  <local-attr label="[event] change">fired when checkbox changes state</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-textarea">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] value">text value (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;textarea&gt;</local-attr>
+                  <local-attr label="[event] change">fired when textbox changes state</local-attr>
+                </html-ul>
+              </local-expando>
+
+              <local-expando taglabel="b-file">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] autoname">after the user uploads a file, sets the filename to the name of the uploaded file automatically</local-attr>
+                  <local-attr label="[attr] filename">sets the filename text</local-attr>
+                  <local-attr label="[attr] filenameplaceholder">sets the filename text when 'autoname' is set, and no file has been uploaded</local-attr>
+                  <local-attr label="[attr] icon">sets the label/cta (call-to-action) icon</local-attr>
+                  <local-attr label="[bindable attr] value">file value [blob] (output only binding)</local-attr>
+                  <local-attr label="[children:slot=filename]">sets complex file name (overrides filename)</local-attr>
+                  <local-attr label="[automerge]">merges to the &lt;input type="file"&gt;</local-attr>
+                  <local-attr label="[automerge:file]">merges to the file-div (that wraps the file-label div)</local-attr>
+                  <local-attr label="[automerge:cta]">merges to the cta (call-to-action) div</local-attr>
+                  <local-attr label="[automerge:icon]">merges to the file-icon span</local-attr>
+                  <local-attr label="[automerge:filelabel]">merges to the file-label span</local-attr>
+                  <local-attr label="[automerge:filename]">merges to the file-name span</local-attr>
+                  <local-attr label="[event] change">fired when input changes state (file uploaded)</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-input></b-input>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-input control placeholder="Name" lefticon="fa fa-user"></b-input>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-input field label="Name" placeholder="Name" lefticon="fa fa-user"></b-input>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-input field label="Name" class="is-danger" placeholder="Name" lefticon="fa fa-user" helptext="Name is required" help:class="is-danger" righticon="fa fa-times" righticon:style="color: red"></b-input>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-textarea field label="Comments"></b-textarea>
+                </div>
+              </local-example>
+              <local-example showvalue="*$.inputs.select1">
+                <div hibiki:innerhtml>
+                  <b-select value.bindpath="$.inputs.select1">
+                    <html-option value>(Select Option)</html-option>
+                    <html-option value="apple">Apple</html-option>
+                    <html-option value="mango">Mango</html-option>
+                    <html-option value="kiwi">Kiwi</html-option>
+                  </b-select>
+                </div>
+              </local-example>
+              <local-example showvalue="*$.inputs.cb1">
+                <div hibiki:innerhtml>
+                  <b-checkbox formvalue.bindpath="$.inputs.cb1" label="V1" value="v1" name="cb1"></b-checkbox>
+                  <b-checkbox formvalue.bindpath="$.inputs.cb1" label="V2" value="v2" name="cb1"></b-checkbox>
+                </div>
+              </local-example>
+              <local-example showvalue="*$.inputs.radio1" mount.handler="$.inputs.radio1 = 'v1'">
+                <div hibiki:innerhtml>
+                  <b-radio formvalue.bindpath="$.inputs.radio1" label="V1" value="v1" name="radio1"></b-radio>
+                  <b-radio formvalue.bindpath="$.inputs.radio1" label="V2" value="v2" name="radio1"></b-radio>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-file field autoname value.bindpath="$.inputs.file1" label="Upload File" filenameplaceholder="No File" icon="fa fa-upload"></b-file>
+                  <b-image if="$.inputs.file1.mimetype.match('^image/*')" class="is-128x128" src="*$.inputs.file1"></b-image>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Notifications" anchor="notifications">
+              <local-expando taglabel="b-notification">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] hasdelete">add the delete (x)</local-attr>
+                  <local-attr label="[bindable attr] show">show or hide the notification (2-way or 1-way binding). If no 'show' attribute is provided, the notification will show by default and then hide itself if the delete is clicked.</local-attr>
+                  <local-attr label="[automerge]">merges to the wrapper 'notification' div</local-attr>
+                  <local-attr label="[automerge:delete]">merges to the delete button</local-attr>
+                  <local-attr label="[children]">the notification content</local-attr>
+                  <local-attr label="[event] delete">fired when delete button is clicked</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+            
+            <local-example-table>
+              <local-example toggle.bindpath="$.notifications.show1">
+                <div hibiki:innerhtml>
+                  <b-notification hasdelete show.bindpath="$.notifications.show1">
+                    This is a notification!
+                  </b-notification>
+                </div>
+              </local-example>
+              <local-example toggle.bindpath="$.notifications.show2">
+                <div hibiki:innerhtml>
+                  <b-notification class="is-link" hasdelete show.bindpath="$.notifications.show2">
+                     Primar lorem ipsum dolor sit amet, consectetur
+                     adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>,
+                     Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur.
+                  </b-notification>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Tags" anchor="tags">
+              <local-expando taglabel="b-tag">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] hasdelete">add the delete (x)</local-attr>
+                  <local-attr label="[automerge]">merges to the wrapper 'tag' div</local-attr>
+                  <local-attr label="[automerge:delete]">merges to the delete button</local-attr>
+                  <local-attr label="[children]">the tag content/text</local-attr>
+                  <local-attr label="[event] click">fired when tag is clicked</local-attr>
+                  <local-attr label="[event] delete">fired when delete button is clicked</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-tag>base tag</b-tag>
+                  <b-tag class="is-info">link tag</b-tag>
+                  <b-tag class="is-danger is-light is-tiny">danger</b-tag>
+                  <b-tag class="is-warning" hasdelete delete:class="is-small">hello</b-tag>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <div class="tags has-addons">
+                    <b-tag class="is-dark">val</b-tag>
+                    <b-tag>55</b-tag>
+                  </div>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Progress" anchor="progress">
+              <local-expando taglabel="b-progress">
+                <p>
+                  Setting the attributes 'value' and 'max' set the progress bar amount.  These are
+                  <i>automerged</i> to the progress div (like all other attributes which is
+                  why they aren't listed).  If value is null
+                  the progress bar will cycle.
+                </p>
+                <html-ul class="mt-1">
+                  <local-attr label="[automerge]">merges to the wrapper 'progress' div</local-attr>
+                  <local-attr label="[children]">the children of progress div (does not show visually)</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+            <local-example-table>
+              <local-example num.bindpath="$.progress.num1" numdefault="*15">
+                <div hibiki:innerhtml>
+                  <b-progress class="is-primary" value="*$.progress.num1" max="100"></b-progress>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Tabs" anchor="tabs">
+              <local-expando taglabel="b-tabs">
+                <html-ul class="mt-1">
+                  <local-attr label="[bindable attr] curtab">the current tab value (2-way or 1-way data binding)</local-attr>
+                  <local-attr label="[attr] showcontent">if true, will show each b-tab's children when the tab is selected</local-attr>
+                  <local-attr label="[automerge]">merges to the wrapper 'tabs' div</local-attr>
+                  <local-attr label="[automerge:content]">merges to the content div</local-attr>
+                  <local-attr label="[children:&lt;b-tab>]">Will only accept &lt;b-tab&gt; tags as children</local-attr>
+                </html-ul>
+              </local-expando>
+              <local-expando taglabel="b-tab">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] value">
+                    The 'value' for this tab.  Integrates with b-tabs.  Makes these tab components
+                    function like radio buttons with 2-way data-binding against b-tabs's curtab attribute.
+                  </local-attr>
+                  <local-attr label="[injected attr] active">
+                    This attribute is managed by the b-tabs component.
+                    If you use b-tab without the b-tabs component, then you can use the 'active' attribute
+                    to set the active tab manually.
+                  </local-attr>
+                  <local-attr label="[automerge]">merges to the wrapper 'tab' li</local-attr>
+                  <local-attr label="[automerge:content]">merges to the content div</local-attr>
+                  <local-attr label="[children:noslot]">Tab content (only shown when integrated with b-tabs with 'showcontent' set)</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+            <local-example-table>
+              <local-example mount.handler="$.tabs.selected1 = 'videos'" showvalue="*$.tabs.selected1">
+                <div hibiki:innerhtml>
+                  <b-tabs class="is-boxed" curtab.bindpath="$.tabs.selected1">
+                    <b-tab value="docs" label="Documents"></b-tab>
+                    <b-tab value="pics" label="Pictures"></b-tab>
+                    <b-tab value="vids" label="Videos"></b-tab>
+                  </b-tabs>
+                </div>
+              </local-example>
+              <local-example mount.handler="$.tabs.selected2 = 'docs'" showvalue="*$.tabs.selected2">
+                <div hibiki:innerhtml>
+                  <b-tabs class="is-boxed" curtab.bindpath="$.tabs.selected2" showcontent content:class="ml-6 mr-6">
+                    <b-tab value="docs" label="Documents">
+                      Documents!
+                    </b-tab>
+                    <b-tab value="pics" label="Pictures">
+                      Pictures!
+                    </b-tab>
+                    <b-tab value="vids" label="Videos">
+                      Videos!
+                    </b-tab>
+                  </b-tabs>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Breadcrumb" anchor="breadcrumb">
+            </local-section>
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-breadcrumb>
+                    <b-crumb href="https://bulma.io" target="_blank">Bulma</b-crumb>
+                    <b-crumb href="#tabs">Tabs</b-crumb>
+                    <b-crumb href="#buttons">Buttons</b-crumb>
+                    <b-crumb active>Breadcrumb</b-crumb>
+                  </b-breadcrumb>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Card" anchor="card">
+            </local-section>
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml class="p-3">
+                  <b-card title="Card Layout" header:class="has-background-info-light">
+                    <p>Some Card Text</p>
+                    <b-button slot="footer-item" class="is-success">Submit</b-button>
+                    <b-button slot="footer-item" class="is-danger is-outlined">Cancel</b-button>
+                  </b-card>
+                </div>
+              </local-example>
+              <local-example toggle.bindpath="$.card.show">
+                <div hibiki:innerhtml class="p-3">
+                  <b-card>
+                    <h-fragment slot="header">
+                      <div class="card-header-title">
+                        Complex <i>Header</i>
+                      </div>
+                      <div class="card-header-icon" click.handler="$.card.show = !$.card.show">
+                        <b-icon icon="fa fa-angle-down"></b-icon>
+                      </div>
+                    </h-fragment>
+                    <p if="$.card.show">Some Card Text</p>
+                  </b-card>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Dropdown" anchor="dropdown">
+            </local-section>
+            <local-example-table>
+              <local-example showvalue="*$.dd.value1">
+                <div hibiki:innerhtml style="height: 200px;">
+                  <b-dropdown value.bindpath="$.dd.value1" label="Select Fruit">
+                    <b-option value="apple">Apple</b-option>
+                    <b-option value="banana">Banana</b-option>
+                    <b-option value="grapes">Grapes</b-option>
+                  </b-dropdown>
+                </div>
+              </local-example>
+              <local-example showvalue="*$.dd.value2" mount.handler="$.dd.value2 = 'apple'">
+                <div hibiki:innerhtml style="height: 200px">
+                  <b-dropdown class="m-2" value.bindpath="$.dd.value2">
+                    <b-option>Select Company</b-option>
+                    <b-option value="apple">
+                      <b-icon icon="fa fa-apple" text="Apple"></b-icon>
+                    </b-option>
+                    <b-option value="amazon">
+                      <b-icon icon="fa fa-amazon" text="Amazon"></b-icon>
+                    </b-option>
+                    <b-option value="google">
+                      <b-icon icon="fa fa-google" text="Google"></b-icon>
+                    </b-option>
+                  </b-dropdown>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Message" anchor="message">
+            </local-section>
+            <local-example-table>
+              <local-example toggle.bindpath="$.message.show1">
+                <div hibiki:innerhtml>
+                  <b-message title="Content Header" hasdelete show.bindpath="$.message.show1">
+                    <div class="content">
+                      <p>Some Message Content</p>
+                      <ul>
+                        <li>First</li>
+                        <li>Second</li>
+                      </ul>
+                    </div>
+                  </b-message>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-message title="Content Header" class="is-info" body:class="has-background-dark has-text-white">
+                    <div class="content">
+                      <p>Some Message Content</p>
+                      <ul>
+                        <li>First</li>
+                        <li>Second</li>
+                      </ul>
+                    </div>
+                  </b-message>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Modal" anchor="modal">
+            </local-section>
+            <local-example-table>
+              <local-example toggle.bindpath="$.modal.show1" toggledefaultfalse>
+                <div hibiki:innerhtml>
+                  <b-modal show.bindpath="$.modal.show1">
+                    <b-card style="width: 400px;" class="m-2" header:class="has-background-info-light" title="hello" hasclose>
+                      <p>Some card content</p>
+                      <a slot="footer-item" href="#">Footer link</a>
+                    </b-card>
+                  </b-modal>
+                  <b-button class="is-primary" click.handler="$.modal.show1 = true;">Show Modal</b-button>
+                </div>
+              </local-example>
+              <local-example toggle.bindpath="$.modal.show2" toggledefaultfalse>
+                <div hibiki:innerhtml>
+                  <b-modalbutton show.bindpath="$.modal.show2" label="Open Modal" button:icon="fa fa-cog" button:class="is-info">
+                    <b-card style="width: 400px;" class="m-2" header:class="has-background-info-light" title="Button Modal Example" hasclose>
+                      <p>Some Content for the Modal</p>
+                      <a slot="footer-item" click.handler="$.modal.show2 = false;" href="#">Close</a>
+                    </b-card>
+                  </b-modalbutton>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Pagination" anchor="pagination">
+            </local-section>
+            <local-example-table>
+              <local-example mount.handler="$.pager.curpage1 = 2" showvalue="*$.pager.curpage1" showlabel="page">
+                <div hibiki:innerhtml>
+                  <div style="zoom:80%">
+                    <b-pager pagesize="*10" totalsize="*128" curpage.bindpath="$.pager.curpage1"></b-pager>
+                  </div>
+                </div>
+              </local-example>
+              <local-example mount.handler="$.pager.curpage2 = 0" showvalue="*$.pager.curpage2" showlabel="page">
+                <div hibiki:innerhtml>
+                  <div style="zoom:80%">
+                    <b-pager pagesize="*10" totalsize="*82" curpage.bindpath="$.pager.curpage2"
+                             last:class="is-danger" first:class="is-primary" showing:class="has-text-weight-bold">
+                    </b-pager>
+                  </div>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Forms" anchor="forms">
+              <p>
+                Here are some complex form examples mostly replicated from the
+                <a href="https://bulma.io/documentation/form/general/" target="_blank">Bulma Form Examples</a>.
+                There is also a new tag &lt;b-hfield&gt; that wraps some of the boilerplate
+                of creating Bulma horitzonal fields (see 3rd example below).
+              </p>
+              <local-expando taglabel="b-hfield">
+                <html-ul class="mt-1">
+                  <local-attr label="[attr] label">text value (2-way or 1-way binding)</local-attr>
+                  <local-attr label="[children:slot=label]">complex label (overrides label)</local-attr>
+                  <local-attr label="[automerge:label]">merges to label</local-attr>
+                  <local-attr label="[automerge:body]">merges to field-body</local-attr>
+                </html-ul>
+              </local-expando>
+            </local-section>
+            
+            <local-example-table>
+              <local-example mount.handler="$.pager.curpage1 = 2" showvalue="*$.pager.curpage1" showlabel="page">
+                <div hibiki:innerhtml>
+                  <b-input field label="Email" placeholder="Email" lefticon="fa fa-user" righticon="fa fa-check" class="is-success" helptext="This is your email!"></b-input>
+                  <b-textarea field label="Message" rows="5"></b-textarea>
+                  <b-select field label="Subject" lefticon="fa fa-globe">
+                    <html-option>Select dropdown</html-option>
+                    <html-option value="with">With options</html-option>
+                  </b-select>
+                  <b-checkbox field>
+                    <h-fragment slot="label">I agree to the <a href="#">terms and conditions</a></h-fragment>
+                  </b-checkbox>
+                  <div class="field">
+                    <div class="control">
+                      <b-radio label="Yes" name="question" value="yes"></b-radio>
+                      <b-radio label="No" name="question" value="no"></b-radio>
+                    </div>
+                  </div>
+                  <div class="field is-grouped">
+                    <b-button control class="is-link">Submit</b-button>
+                    <b-button control class="is-link is-light">Cancel</b-button>
+                  </div>
+                </div>
+              </local-example>
+              <local-example showvalue="*fn:int($.forms1.amount)" showlabel="*$.forms1.label" mount.handler="$.forms1 = {label: '$', amount: 55}">
+                <div hibiki:innerhtml>
+                  <div class="field has-addons">
+                    <b-select control value.bindpath="$.forms1.label">
+                      <option value="$">$</option>
+                      <option value="£">£</option>
+                      <option value="€">€</option>
+                    </b-select>
+                    <b-input control type="number" value.bindpath="$.forms1.amount" placeholder="Amount of Money"></b-input>
+                    <b-button control>Transfer</b-button>
+                  </div>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-hfield label="From" fieldlabel:class="is-normal">
+                    <b-input field placeholder="Name" lefticon="fa fa-user"></b-input>
+                    <b-input field placeholder="Email" lefticon="fa fa-envelope" righticon="fa fa-check" control:class="is-expanded"></b-input>
+                  </b-hfield>
+                  <b-hfield fieldlabel:class="is-normal">
+                    <div class="field is-expanded">
+                      <div class="field has-addons">
+                        <b-button control buttoncomponent="a" class="is-static">+44</b-button>
+                        <b-input control control:class="is-expanded" type="tel" placeholder="Phone Number"></b-input>
+                      </div>
+                    </div>
+                  </b-hfield>
+                  <b-hfield label="Dept" fieldlabel:class="is-normal">
+                    <b-select field field:class="is-narrow" selectdiv:class="is-fullwidth">
+                      <html-option>BizDev</html-option>
+                      <html-option>Marketing</html-option>
+                      <html-option>Sales</html-option>
+                    </b-select>
+                  </b-hfield>
+                  <b-hfield label="Member?">
+                    <div class="field is-narrow">
+                      <div class="control">
+                        <b-radio label="Yes" name="member" value="1"></b-radio>
+                        <b-radio label="No" name="member" value="0"></b-radio>
+                      </div>
+                    </div>
+                  </b-hfield>
+                  <b-hfield label="Subject">
+                    <b-input field class="is-danger" placeholder="e.g. Partnership opportunity" helptext="This field is required" help:class="is-danger"></b-input>
+                  </b-hfield>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <div style="height: 150px"></div>
+              
+        </div></div>
+
+        <define-component name="example">
+          <define-handler name="//@event/mount">
+            if (isref($args.toggle) && !$args.toggledefaultfalse) { $args.toggle = true; }
+            if (isref($args.num)) { $args.num = $args.numdefault; }
+          </define-handler>
+          <html-tr>
+            <html-td>
+              <div style="width:500px; overflow-x: scroll;">
+                <hl-code text="*fn:replaceall(fn:trimindent(@children.noslot.node.innerhtml), '=&quot;&quot;', '')" class="p-0" code:class="theme-default language-html"></hl-code>
+              </div>
+            </html-td>
+            <html-td id="*'example-' + $c.@hibiki.uuid">
+              <div style="width:500px; overflow-x: scroll;">
+                <h-children bind="@children.noslot"></h-children>
+              </div>
+            </html-td>
+            <html-td style="vertical-align: middle;">
+              <div class="tags has-addons" if="!isnoattr($args.showvalue)">
+                <b-tag class="mb-2 is-dark">{{ $args.showlabel ?? "val" }}</b-tag>
+                <b-tag class="mb-2">{{ $args.showvalue }}</b-tag>
+              </div>
+              <b-input if="isref($args.num)" value="*$args.num" class="is-small mb-2"></b-input>
+              <b-checkbox if="isref($args.toggle)" checked="*$args.toggle" class="mb-2" label="Toggle"></b-checkbox>
+              <b-button if="!$c.viewsource" click.handler="$c.viewsource = true;" class="is-info is-small is-outlined">
+                Show HTML
+              </b-button>
+              <b-button if="$c.viewsource" click.handler="$c.viewsource = false;" class="is-info is-small is-outlined">
+                Hide HTML
+              </b-button>
+            </html-td>
+          </html-tr>
+          <html-tr if="$c.viewsource">
+            <html-td colspan="3">
+              <div style="width: 1175px; overflow-x: scroll">
+                <hl-code fromselector="*'#example-' + $c.@hibiki.uuid + ' div div'" beautify class="p-0" code:class="language-html theme-dark p-3" beautify></hl-code>
+              </div>
+            </html-td>
+          </html-tr>
+        </define-component>
+
+        <define-component name="example-table">
+          <html-table class="table is-bordered mb-6" style="width:1200px;">
+              <html-thead><html-tr>
+                  <html-th style="width:500px;">Hibiki HTML</html-th>
+                  <html-th style="width:500px;">Output</html-th>
+                  <html-th style="width:120px;"></html-th>
+              </html-tr></html-thead>
+              <html-tbody>
+                <h-children bind="@children"></h-children>
+              </html-tbody>
+          </html-table>
+        </define-component>
+
+        <define-component name="explain">
+          <div automerge class="columns is-vcentered" style="background-color: #f5f5f5">
+            <div class="column"><pre class="p-2" hibiki:ws="trim">
+                  <h-children bind="@children.byslot['hibiki']"></h-children>
+            </pre></div>
+            <div class="column is-narrow">
+              <b-icon icon="fa fa-arrow-right"></b-icon>
+            </div>
+            <div class="column"><pre class="p-2" hibiki:ws="trim">
+                  <h-children bind="@children.byslot['html']"></h-children>
+            </pre></div>
+          </div>
+        </define-component>
+
+        <define-component name="attr">
+          <html-li><b>{{ $args.label }}</b> - <h-children bind="@children"></h-children></html-li>
+        </define-component>
+
+        <define-component name="expando">
+          <div class="mt-4">
+            <a class="has-text-link has-text-weight-bold" click.handler="$c.expanded = !$c.expanded;">
+              <h-fragment if="$args.taglabel">&lt;{{ $args.taglabel }}&gt; Attributes</h-fragment>
+              <h-fragment if="$args.label">{{ $args.label }}</h-fragment>
+              <b-icon if="!$c.expanded" icon="fa fa-plus"></b-icon>
+              <b-icon if="$c.expanded" icon="fa fa-minus"></b-icon>
+            </a>
+            <h-children if="$c.expanded" bind="@children"></h-children>
+          </div>
+        </define-component>
+
+        <define-component name="section">
+          <a name="*$args.anchor" class="navanchor"></a>
+          <h2 class="title is-4 mt-4">{{ $args.label }}</h2>
+          <div class="content" style="margin-right: 200px">
+            <h-children bind="@children"></h-children>
+          </div>
+        </define-component>
+      </template>
+
+      <style>
+        table tr td pre { font-size: 14px; }
+        .navanchor { position: relative; top: -20px; }
+        .red { color: red; }
+        .blue { color: blue; }
+        .green { color: green; }
+      </style>
+  </body>
+</html>
+
+
+
+
+

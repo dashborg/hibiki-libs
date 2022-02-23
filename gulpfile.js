@@ -304,10 +304,17 @@ gulp.task("webserver:base", () => {
     connect.server({
         directoryListing: true,
         port: 5005,
-        root: "./dist",
+        root: ["./dist", "./static"],
         middleware: () => {
             return [cors()];
         },
+        livereload: true,
+    });
+});
+
+gulp.task("webserver:watch:reload", () => {
+    watch(["static/**.html", "dist/**.html"], () => {
+        return gulp.src(["static/**.html", "dist/**.html"], {read: false}).pipe(connect.reload());
     });
 });
 
@@ -315,6 +322,6 @@ gulp.task("builddev", gulp.series("clean:dev", "webpack:builddev", gulp.parallel
 gulp.task("buildprod", gulp.series("clean:prod", "webpack:buildprod", gulp.parallel(prodTasks)));
 gulp.task("build", gulp.series("builddev", "buildprod"));
 gulp.task("watch", gulp.series("clean:dev", "builddev", gulp.parallel(["webpack:watch", ...watchTasks])));
-gulp.task("webserver", gulp.parallel("webserver:base", "watch"));
+gulp.task("webserver", gulp.parallel("webserver:base", "watch", "webserver:watch:reload"));
 
 
