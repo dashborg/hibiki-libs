@@ -518,6 +518,20 @@
             </local-example-table>
 
             <local-section label="Breadcrumb" anchor="breadcrumb">
+              <local-expando taglabel="b-breadcrumb">
+                <md-markdown hibiki:ws>
+                  * **[automerge]** - merges to the wrapper 'breadcrumb' div
+                  * **[children:&lt;b-crumb&gt;]** - will only accept &lt;b-crumb&gt; tags as children
+                </md-markdown>
+              </local-expando>
+              <local-expando taglabel="b-crumb">
+                <md-markdown hibiki:ws>
+                  * **[attr] active** - marks this crumb as active (sets class="is-active")
+                  * **[automerge]** - merges to the wrapper &lt;li&gt; tag
+                  * **[children]** - the content of the crumb
+                  * **[event] click** - fired when crumb is clicked
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example>
@@ -533,6 +547,22 @@
             </local-example-table>
 
             <local-section label="Card" anchor="card">
+              <local-expando taglabel="b-card">
+                <md-markdown hibiki:ws>
+                  * **[attr] title** - sets the card's title
+                  * **[attr] modal** - should be set when this card is used inside of a modal (the class names are different). if &lt;b-card&gt; is a direct child of the modal, the modal will auto-inject this attribute
+                  * **[automerge]** - merges to the wrapper 'card' div
+                  * **[automerge:header]** - merges to the 'card-header' div
+                  * **[automerge:content]** - merges to the 'card-content' div
+                  * **[automerge:image]** - merges to the 'card-image' div
+                  * **[automerge:footer]** - merges to the 'card-footer' div
+                  * **[children:noslot]** - sets card-content children (note that any content children *must* be wrapped in tags, cards will not accept pure text children as content)
+                  * **[children:slot=header]** - sets card-header children (overrides title)
+                  * **[children:slot=image]** - sets card-image children
+                  * **[children:slot=footer]** - sets card-footer children
+                  * **[children:slot=footer-item]** - adds class='card-footer-item' children to the card-footer.  these will render after children:slot=footer children
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example>
@@ -562,6 +592,33 @@
             </local-example-table>
 
             <local-section label="Dropdown" anchor="dropdown">
+              <md-markdown hibiki:ws>
+                The &lt;b-dropdown&gt; tag works with children &lt;b-option&gt; tags.  The b-option children's
+                content is shown in the dropdown list.  When selected, the b-option content will be
+                shown in the b-dropdown's dropdown-trigger.  The 'value' in the b-option sets the
+                b-dropdown's value when selected (and fires an appropriate *change* event).
+              </md-markdown>
+              <local-expando taglabel="b-dropdown">
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] value** - the selected value of this dropdown (works like 'select') (2-way or 1-way data binding).
+                  * **[attr] icon** - icon for dropdown-trigger (defaults to 'fa fa-angle-down')
+                  * **[attr] noicon** - set to not show any icon
+                  * **[attr] label** - set the dropdown-trigger content when no child is selected
+                  * **[bindable attr] active** - (normally managed by the dropdown directly).  controls whether the dropdown is open/closed.  if not set, the open/closed state will be managed by the dropdown internally.  can be set as a *bindpath* to allow 2-way binding.
+                  * **[automerge]** - merges to wrapper 'dropdown' div
+                  * **[automerge:button]** - merges to the button in dropdown-trigger
+                  * **[automerge:icon]** - merges to the icon in dropdown-trigger
+                  * **[children]** - children should be &lt;b-option&gt; tags
+                  * **[children:slot=label]** - set a complex dropdown-content label (overrides label), only shown when no option is selected
+                  * **[event] change** - fired when the dropdown changes values
+                </md-markdown>
+              </local-expando>
+              <local-expando taglabel="b-option">
+                <md-markdown hibiki:ws>
+                  * **[attr] value** - the value for this option (works to set b-dropdown's value)
+                  * **[children]** - the content the option displays in the dropdown and in the dropdown trigger when selected
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example showvalue="*$.dd.value1">

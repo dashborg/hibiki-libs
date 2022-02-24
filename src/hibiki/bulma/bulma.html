@@ -149,20 +149,20 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     </define-vars>
     <div class="dropdown" automerge class.is-active="* @active" active="*@active">
       <div class="dropdown-trigger">
-        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" click.handler="log('dropdown-click'); @active = !@active">
+        <button class="button" automerge="button" aria-haspopup="true" aria-controls="dropdown-menu" click.handler="@active = !@active">
           <h-children if="@activechildren.size" bind="@activechildren.first" inject:mode="label"></h-children>
           <h-fragment if="!@activechildren.size">
             <span if="$args.label">{{ $args.label }}</span>
             <h-children bind="@children.byslot['label']"></h-children>
           </h-fragment>
-          <span if="!$args.noicon" class="icon is-small">
+          <span if="!$args.noicon" class="icon is-small" automerge="icon">
             <i class="* $args.icon ?? 'fa fa-angle-down'" aria-hidden="true"></i>
           </span>
         </button>
       </div>
       <div class="dropdown-menu">
         <div class="dropdown-content">
-          <h-children bind="@children.noslot" inject:click.handler="@active = false; @curvalue = @node.attrs.value;" inject:mode="dropdown"></h-children>
+          <h-children bind="@children.noslot" inject:click.handler="@active = false; @curvalue = @node.attrs.value; fire->change(@node.attrs.value);" inject:mode="dropdown"></h-children>
         </div>
       </div>
     </div>
