@@ -313,10 +313,10 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <define-vars>
       @show = raw($args.show) ?? ref($c.show);
     </define-vars>
-    <local-modal show="*@show">
+    <local-modal show="*@show" noclose="*$args.noclose" close.handler="fire->close()">
       <h-children bind="@children.noslot"></h-children>
     </local-modal>
-    <local-button if="!$.show_modal" class="button" automerge="button" click.handler="@show = true;">
+    <local-button class="button" automerge="button" click.handler="fire->open(); @show = true;">
       <h-children text="*$args.label" bind="@children.byslot['label']"></h-children>
     </local-button>
   </define-component>
@@ -325,7 +325,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <define-vars>
       @start = fn:max($args.curpage*$args.pagesize, 0);
       @end = fn:min(@start + $args.pagesize - 1, $args.totalsize - 1);
-      @lastpage = fn:floor(($args.totalsize-1) / $args.pagesize);
+      @lastpage = fn:floor(($args.totalsize-0.1) / $args.pagesize);
     </define-vars>
     <define-handler name="//@event/update_sliceargs">
       if (isref($args.sliceargs)) {
@@ -350,21 +350,6 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
       <local-button automerge="prev" icon="fa fa-angle-left" disabled="* @start <= 0" click.handler="fire->change(value=$args.curpage-1)">Prev</local-button>
       <local-button automerge="next" righticon="fa fa-angle-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=$args.curpage+1)">Next</local-button>
       <local-button automerge="last" righticon="fa fa-angle-double-right" disabled="* @end+1 >= $args.totalsize" click.handler="fire->change(value=@lastpage)">Last</local-button>
-    </div>
-  </define-component>
-
-  <define-component name="pager-manual">
-    <define-vars>
-      @last = $args.last ?? ($args.start + $args.num - 1);
-    </define-vars>
-    <div class="buttons has-addons" automerge>
-      <local-button if="$args.showfirst" icon="fa fa-angle-double-left" automerge="first" disabled="* $args.start <= 0" click.handler="fire->clickfirst()">First</local-button>
-      <local-button automerge="showing" class="is-static" style="background-color: white; color: black;">
-        {{ $args.label ?? 'Showing' }} {{ $args.start+1 }}-{{ @last + 1 }}
-      </local-button>
-      <local-button if="$args.showprev" icon="fa fa-angle-left" disabled="* $args.start <= 0" automerge="prev" click.handler="fire->clickprev()">Prev</local-button>
-      <local-button righticon="fa fa-angle-right" automerge="next" click.handler="fire->clicknext()">Next</local-button>
-      <local-button if="$args.showlast" righticon="fa fa-angle-double-right" automerge="last" click.handler="fire->clicklast()">Last</local-button>
     </div>
   </define-component>
 
@@ -400,7 +385,7 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
     <local-table automerge="@all|-curpage" rowclick.handler="fire->rowclick(row=@row, rownum=@rownum)" slice="*$c.sliceout">
       <h-children bind="@children"></h-children>
     </local-table>
-    <local-pager curpage="*raw(@curpage)" sliceargs="*ref($c.sliceout)" pagesize="*@pagesize" totalsize="*fn:len($args.bind)"></local-pager>
+    <local-pager automerge="buttons=>buttons,first=>first,prev=>prev,showing=>showing,next=>next,last=>last" curpage="*raw(@curpage)" sliceargs="*ref($c.sliceout)" pagesize="*@pagesize" totalsize="*fn:len($args.bind)"></local-pager>
   </define-component>
 
   <define-component name="table">
@@ -421,7 +406,6 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
           $c.sortexpr = @col_sortexpr;
       }
     </define-handler>
-    sortfield={{ @sortfield }} | sortdesc={{ @sortdesc }} | sliceout={{ $args.slice }} | sortexpr={{ $c.sortexpr }} | {{ refinfo($args.bind) }}
     <table class="table" automerge="@class|style">
       <thead>
         <tr>
@@ -447,14 +431,14 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
   </define-component>
 
   <define-component name="tablecol">
-    <html-th if="$args.mode == 'header'" click.handler="fire->headerclick()">
+    <html-th if="$args.mode == 'header'" click.handler="fire->headerclick()" automerge="th">
       <h-children if="$args.sortfield == null" text="*$args.label" bind="@children.byslot['header']"></h-children>
       <a if="$args.sortfield != null" automerge="sortanchor" click.handler="fire->sort(value=$args.sortfield, col_sortexpr=$args.sortexpr, initialsortdesc=$args.initialsortdesc)">
         <h-children text="*$args.label" bind="@children.byslot['header']"></h-children>
         <span if="$args.sorticon != null" class="*$args.sorticon"></span>
       </a>
     </html-th>
-    <html-td automerge="@style|class" if="$args.mode == 'row'" click.handler="fire->click()">
+    <html-td automerge="@style|class" if="$args.mode == 'row'" click.handler="fire->click()" automerge="td">
       <h-children bind="@children.noslot" datacontext="@row=raw($args.row); @rownum=$args.rownum"></h-children>
     </html-td>
   </define-component>

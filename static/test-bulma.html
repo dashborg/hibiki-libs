@@ -1,4 +1,5 @@
 <html>
+  <meta name="viewport" content="width=1400">
   <script>
     window.HibikiGlobalConfig = {
         libraryRoot: ["/libs/"],
@@ -11,6 +12,16 @@
         <import-library lib="hibiki/bulma@v0.1.0" prefix="b"></import-library>
         <import-library lib="hibiki/code-highlight@v0.1.0" prefix="hl"></import-library>
         <import-library lib="hibiki/markdown@v0.1.0" prefix="md"></import-library>
+        <hibiki-data>
+          {"fruits": [
+            {"name": "apple", "qty": 10, "emoji": "&#127815;"},
+            {"name": "kiwi", "qty": 7, "emoji": "&#129373;"},
+            {"name": "banana", "qty": 5, "emoji": "&#127820;"},
+            {"name": "orange", "qty": 1, "emoji": "&#127818;"},
+            {"name": "grapes", "qty": 3, "emoji": "&#127815;"},
+            {"name": "pineapple", "qty": 20, "emoji": "&#127821;"}
+          ]}
+        </hibiki-data>
 
         <div class="hero is-info mb-3">
           <div class="hero-body">
@@ -18,8 +29,8 @@
           </div>
         </div>
         <div class="columns is-fullheight" style="border-top: 2px solid #f5f5f5">
-          <div class="column" style="flex-grow: 0; border-right: 2px solid #f5f5f5;">
-            <div style="position: sticky; top: 0">
+          <div class="column" style="flex-grow: 0; border-right: 2px solid #f5f5f5;" class="pt-0">
+            <div style="position: sticky; top: 0; max-height: 95vh; overflow: auto" class="pt-3">
             <b-menu style="width: 150px;" class="pl-2" selected.bindpath="$.menu_selected">
               <b-menulabel>General</b-menulabel>
               <b-menulist>
@@ -41,8 +52,10 @@
                 <b-menuitem a:href="#modal" value="modal">Modal</b-menuitem>
                 <b-menuitem a:href="#pagination" value="pagination">Pagination</b-menuitem>
                 <b-menuitem a:href="#forms" value="forms">Forms</b-menuitem>
+                <b-menuitem a:href="#table" value="table">Table</b-menuitem>
               </b-menulist>
             </b-menu>
+            <div style="height: 150px"></div>
             </div>
           </div>
           <div class="contaner column">
@@ -649,6 +662,19 @@
             </local-example-table>
 
             <local-section label="Message" anchor="message">
+              <local-expando taglabel="b-message">
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] show** - if the attribute is provided, it will control whether this message is showing or hidden (2-way and 1-way binding).  if the attribute is not provided, the message will show by default, and hide itself if the delete button is clicked.
+                  * **[attr] hasdelete** - show the delete button
+                  * **[attr] title** - sets the message title
+                  * **[automerge]** - merges to wrapper "message" div
+                  * **[automerge:body]** - merges to "message-body" div
+                  * **[automerge:header]** - merges to "message-header" div
+                  * **[children:noslot]** - message body
+                  * **[children:slot=header]** - complex title (overrides title)
+                  * **[event] delete** - fired when the delete button is clicked
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example toggle.bindpath="$.message.show1">
@@ -680,6 +706,31 @@
             </local-example-table>
 
             <local-section label="Modal" anchor="modal">
+              <local-expando taglabel="b-modal">
+                <md-markdown hibiki:ws>
+                  * **[bindable attr] show** - if the attribute is provided, it will control whether this modal is showing or hidden (2-way and 1-way binding).  if the attribute is not provided, the modal will show by default, and hide itself once the close button is clicked.
+                  * **[children:noslot]** - sets the modal-content
+                  * **[children:&lt;b-card&gt;]** - if a single b-card child is provided, it will override all the other children (the modal will only show the card).  the card will get injected with the 'modal' attribute so it will display properly in the modal.
+                  * **[attr] noclose** - if set, suppress the default modal-close button
+                  * **[event] close** - fired when the close button is clicked
+                </md-markdown>
+              </local-expando>
+              <local-expando taglabel="b-modalbutton">
+                <md-markdown hibiki:ws>
+                  The modal button component renders as a b-button by default.  When the button is clicked
+                  it will render its modal content.
+
+                  * **[bindable attr] show** - if the attribute is provided, it will control whether this modal is showing or hidden (2-way and 1-way binding).  if the attribute is not provided, the modal will not show by default (because the button is showing), and the component will internally manage the show/hide in concert with the button click and modal close.
+                  * **[attr] label** - the button's text
+                  * **[automerge:button]** - merges to the button
+                  * **[children:slot=label]** - complex button text (overrides label)
+                  * **[children:noslot]** - sets the modal-content (passed through to embedded b-modal)
+                  * **[children:&lt;b-card&gt;]** - if a single b-card child is provided, it will override all the other children (the modal will only show the card).  the card will get injected with the 'modal' attribute so it will display properly in the modal.
+                  * **[attr] noclose** - if set, suppress the default modal-close button
+                  * **[event] open** - fired when the modal is opened
+                  * **[event] close** - fired when the close button of the modal is clicked
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example toggle.bindpath="$.modal.show1" toggledefaultfalse>
@@ -706,6 +757,26 @@
             </local-example-table>
 
             <local-section label="Pagination" anchor="pagination">
+              <local-expando taglabel="b-pager">
+                <md-markdown hibiki:ws>
+                  The b-pager control is different than the standard Bulma paging controls.  Note that
+                  the examples below are rendered at zoom '80%' so they'll fit in the box (so they
+                  are larger when actually used).  You'll need to specify the pagesize, and know
+                  the *total* number of elements in order to use this control.
+
+                  * **[bindable attr] curpage** - (required) the current page (2-way and 1-way binding).  should be an integer.  0-indexed (the first page is page 0).
+                  * **[output attr] sliceargs** - if set as a ref(), the pager will *set* the [start,end] indexes as a 2-element array.  this allows easy integration with fn:sort() or fn:slice() to paginate an array based on the state of this pager control.
+                  * **[attr] pagesize** - (required) the size of each page
+                  * **[attr] totalsize** - (required) the total number of elemens
+                  * **[attr] label** - defaults as 'Showing' (allows customization of the 'Showing' text)
+                  * **[automerge:buttons]** - merges to the 'buttons' div (wraps the entire paging control)
+                  * **[automerge:first]** - merges to the 'first' button
+                  * **[automerge:prev]** - merges to the 'prev' button
+                  * **[automerge:showing]** - merges to the 'Showing' button (already set with 'is-static')
+                  * **[automerge:next]** - merges to the 'next' button
+                  * **[automerge:last]** - merges to the 'last' button
+                </md-markdown>
+              </local-expando>
             </local-section>
             <local-example-table>
               <local-example mount.handler="$.pager.curpage1 = 2" showvalue="*$.pager.curpage1" showlabel="page">
@@ -812,6 +883,92 @@
                   <b-hfield label="Subject">
                     <b-input field class="is-danger" placeholder="e.g. Partnership opportunity" helptext="This field is required" help:class="is-danger"></b-input>
                   </b-hfield>
+                </div>
+              </local-example>
+            </local-example-table>
+
+            <local-section label="Table" anchor="table">
+              <p>
+                Here are some complex form examples mostly replicated from the
+                <a href="https://bulma.io/documentation/form/general/" target="_blank">Bulma Form Examples</a>.
+                There is also a new tag &lt;b-hfield&gt; that wraps some of the boilerplate
+                of creating Bulma horitzonal fields (see 3rd example below).
+              </p>
+              <local-expando taglabel="b-table">
+                <md-markdown hibiki:ws>
+                  * **[attr] bind** - the table data.  if the provided table data is a *ref* then the rendered rows will get passed a *reference* to each row.  this allows for the row to write changes back to the underlying data (e.g. inline inputs, buttons, etc.).
+                  * **[attr] slice** - if provided, should be a two-element array [start,end] that will be passed to fn:slice() to slice the input array (for pagination).  only the sliced data will be rendered as rows.
+                  * **[bindable attr] sortfield** - provide if you want to inspect or override the table's sorting behavior (2-way or 1-way binding)
+                  * **[bindable attr] sortdesc** - provide if you want to inspect or override the table's sorting behavior (2-way or 1-way binding)
+                  * **[children:&lt;b-tablecol&gt;]** - only accepts b-tablecol children
+                </md-markdown>
+              </local-expando>
+              <local-expando taglabel="b-tablecol">
+                <md-markdown hibiki:ws>
+                  * **[attr] label** - column header (th) text
+                  * **[attr] sortfield** - if set, allows sorting by this column.  if this column is clicked, the sort 'field' for the table will be set to the provided value.
+                  * **[attr] initialsortdesc** - defaults to false, sets the sort direction when the column is initially clicked.  normally you want ascending sort to be default, but sometimes (with numeric columns) you might prefer a descending sort to happen on the first click.
+                  * **[attr] sortexpr** - (lambda)
+                  * **[automerge:th]** - merges to the &lt;th&gt; (column header)
+                  * **[automerge:td]** - merges to the &lt;td&gt;'s (table cells, one per row)
+                  * **[children:noslot]** - the table cell content.  will have access to 2 extra context variables **@row** (the row data), and **rownum** (0-indexed row number).
+                  * **[children:slot=header]** - sets complex &lt;th&gt; content (overrides label)
+                  * **[injected attr] mode, sorticon** - managed by the b-table used to render the column as a header or row
+                </md-markdown>
+              </local-expando>
+              <local-expando taglabel="b-paged-table">
+                <md-markdown hibiki:ws>
+                  The paged table combines the b-pager control with the b-table control to create an easy
+                  one-tag paginated table.  It combines the attributes in b-pager with those of b-table.
+                  Not all of the attributes make sense though (like b-table's 'slice' attribute) because
+                  they are managed by the combination.
+
+                  * **[attr] bind** - the table data.  if the provided table data is a *ref* then the rendered rows will get passed a *reference* to each row.  this allows for the row to write changes back to the underlying data (e.g. inline inputs, buttons, etc.).
+                  * **[bindable attr] curpage** - (optional) current page, passed to b-pager (2-way and 1-way bindable)
+                  * **[attr] initialpage** - if 'curpage' is not set, this will set the paged-table's internal current page to this value (to start).  if neither curpage or initialpage are set, initialpage defaults to 0.
+                  * **[attr] pagesize** - passed to b-pager, defaults to 10.
+                  * **[automerge:buttons]** - see b-pager
+                  * **[automerge:first]** - see b-pager
+                  * **[automerge:prev]** - see b-pager
+                  * **[automerge:showing]** - see b-pager
+                  * **[automerge:next]** - see b-pager
+                  * **[automerge:last]** - see b-pager
+                  * **[children:&lt;b-tablecol&gt;]** - only accepts b-tablecol children
+                </md-markdown>
+              </local-expando>
+            </local-section>
+            <local-example-table>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-table bind="$.fruits">
+                    <b-tablecol label="#">{{ @rownum + 1 }}</b-tablecol>
+                    <b-tablecol label="Fruit">{{ @row.emoji }}&nbsp;&nbsp;{{ @row.name }}</b-tablecol>
+                    <b-tablecol label="Qty">{{ @row.qty }}</b-tablecol>
+                  </b-table>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-table bind="$.fruits">
+                    <b-tablecol label="Fruit" sortfield="name">{{ @row.emoji }}&nbsp;&nbsp;{{ @row.name }}</b-tablecol>
+                    <b-tablecol label="Qty" sortfield="qty">{{ @row.qty }}</b-tablecol>
+                  </b-table>
+                </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-table bind="$.fruits" slice="*[1,3]">
+                    <b-tablecol label="Fruit">{{ @row.emoji }}&nbsp;&nbsp;{{ @row.name }}</b-tablecol>
+                    <b-tablecol label="Qty">{{ @row.qty }}</b-tablecol>
+                  </b-table>
+                </div>
+              </local-example>
+              <local-example mount.handler="$.table.curpage = 0;" showvalue="*$.table.curpage" showlabel="page">
+                <div hibiki:innerhtml>
+                  <b-paged-table bind="$.fruits" pagesize="*2" curpage.bindpath="$.table.curpage">
+                    <b-tablecol label="Fruit" sortfield="name">{{ @row.emoji }}&nbsp;&nbsp;{{ @row.name }}</b-tablecol>
+                    <b-tablecol label="Qty" sortfield="qty">{{ @row.qty }}</b-tablecol>
+                  </b-paged-table>
                 </div>
               </local-example>
             </local-example-table>
