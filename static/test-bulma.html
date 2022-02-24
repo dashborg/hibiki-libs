@@ -1,12 +1,9 @@
 <html>
-  <meta name="viewport" content="width=1400">
-  <script>
-    window.HibikiGlobalConfig = {
-        libraryRoot: ["/libs/"],
-        useDevLibraryBuilds: true,
-    };
-  </script>
-  <script src="http://localhost:9000/hibiki-dev.js"></script>
+  <head>
+    <title>Bulma - Hibiki HTML Libs</title>
+    <meta name="viewport" content="width=1400">
+    <script src="/hibiki-test.js"></script>
+  </head>
   <body>
     <template hibiki>
         <import-library lib="hibiki/bulma@v0.1.0" prefix="b"></import-library>
@@ -96,7 +93,7 @@
                 library:
               </p>
               <pre class="p-3 mt-2"><code hibiki:ws="trim">
-&lt;script src="https://cdn.hibikihtml.com/hibiki/v0.3.1/hibiki-prod.min.js">&lt;/script>
+&lt;script src="https://cdn.hibikihtml.com/hibiki/v0.3.2/hibiki-prod.min.js">&lt;/script>
 &lt;template hibiki>
   &lt;import-library lib="hibiki/bulma@v0.1.0" prefix="b">&lt;/import-library>
   ...
@@ -504,7 +501,7 @@
               </local-expando>
             </local-section>
             <local-example-table>
-              <local-example mount.handler="$.tabs.selected1 = 'videos'" showvalue="*$.tabs.selected1">
+              <local-example mount.handler="$.tabs.selected1 = 'vids'" showvalue="*$.tabs.selected1">
                 <div hibiki:innerhtml>
                   <b-tabs class="is-boxed" curtab.bindpath="$.tabs.selected1">
                     <b-tab value="docs" label="Documents"></b-tab>
@@ -1063,7 +1060,7 @@
         <define-component name="section">
           <a name="*$args.anchor" class="navanchor"></a>
           <h2 class="title is-4 mt-4">{{ $args.label }}</h2>
-          <div class="content" style="margin-right: 200px">
+          <div class="content ml-4" style="margin-right: 200px;">
             <h-children bind="@children"></h-children>
           </div>
         </define-component>
