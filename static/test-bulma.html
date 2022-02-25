@@ -63,6 +63,12 @@
                   <a class="has-text-weight-bold" href="https://bulma.io/" target="_blank">Bulma UI Library</a>!
                 </p>
                 <p>
+                  This page is <b>100% written in Hibiki HTML</b> using Bulma components (and
+                  some additional Hibiki components to render markdown and highlight/format HTML).  It
+                  is served as static HTML (no backend server), and the source is available at
+                  <a href="https://github.com/dashborg/hibiki-libs/blob/main/static/test-bulma.html" target="_blank">Github</a>.
+                </p>
+                <p>
                   You should know the Bulma UI basics.  Because Hibiki HTML <i>is</i> HTML you can
                   continue to use any regular bulma structures like "columns", color helpers, and
                   layout without any modification.  So why use these wrappers?
@@ -124,7 +130,7 @@
               </local-explain>
 
               <p>
-                Automerge copies regular attributes as well.  To set a 'placeholde', 'maxlength'
+                Automerge copies regular attributes as well.  To set a 'placeholder', 'maxlength'
                 or override &lt;input&gt;'s type, you can set attributes on the &lt;b-input&gt;
                 tag and they will be set on the raw &lt;input&gt; tag.
               </p>
@@ -223,6 +229,11 @@
                       <b-button class="is-danger">Danger Button</b-button>
                     </div>
                   </div>
+              </local-example>
+              <local-example>
+                <div hibiki:innerhtml>
+                  <b-button field>Field Button</b-button>
+                </div>
               </local-example>
               <local-example>
                 <div hibiki:innerhtml>
