@@ -1,7 +1,9 @@
 <html>
   <head>
-    <title>Bulma - Hibiki HTML Libs</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=1400">
+    <title>Bulma - Hibiki HTML Libs</title>
+    <link rel="icon" href="https://cdn.hibikihtml.com/favicon.ico">
     <script src="/hibiki-test.js"></script>
   </head>
   <body>
@@ -70,14 +72,26 @@
                 </p>
                 <p>
                   You should know the Bulma UI basics.  Because Hibiki HTML <i>is</i> HTML you can
-                  continue to use any regular bulma structures like "columns", color helpers, and
+                  continue to use any regular bulma structures like columns, color helpers, and
                   layout without any modification.  So why use these wrappers?
                 </p>
                 <ul>
                   <li><b>Reduce Boilerplate</b> - Some Bulma structures (like form fields) require extra levels of boilerplate ("field" and "control" divs).  These wrappers can help with that boilerplate.
                   <li><b>Dynamic Controls</b> - Want messages or notifications that disappear when you click them, buttons to trigger modals, pass form fields to AJAX calls, or create tabs and menus that show dynamic content?  Easily integrate with the Hibiki HTML data-model with 2-way or 1-way data binding!
-                  <li><b>Components</b> - Use these controls as a starting point, or wrap your own!  Easily use Hibiki's &lt;define-component&gt; syntax to create a complex control out of Bulma's building blocks.
+                  <li><b>Components</b> - Use these controls as a starting point, or wrap your own!  Easily use Hibiki's &lt;define-component&gt; syntax to create complex controls out of Bulma's building blocks.
                 </ul>
+                <p>
+                  <b-button buttoncomponent="a" href="https://github.com/dashborg/hibiki" target="_blank" icon="fa fa-github">
+                    Star on Github
+                  </b-button>
+                  <b-button buttoncomponent="a" href="https://discord.gg/zbWV6ueED7" target="_blank">
+                    <local-discordicon></local-discordicon>
+                    Connect on Discord
+                  </b-button>
+                  <b-button buttoncomponent="a" href="https://playground.hibikihtml.com/tutorial/" target="_blank" righticon="fa fa-external-link">
+                    Launch Tutorial
+                  </b-button>
+                </p>
               </div>
               <div class="column">
                 <div class="box">
@@ -1019,7 +1033,10 @@
           <html-tr if="$c.viewsource">
             <html-td colspan="3">
               <div style="width: 1175px; overflow-x: scroll">
-                <hl-code fromselector="*'#example-' + $c.@hibiki.uuid + ' div div'" beautify class="p-0" code:class="language-html theme-dark p-3" beautify></hl-code>
+                <div style="color: white; background-color:black; font-weight:bold;" class="pl-3 pt-2 pb-2">Hibiki HTML</div>
+                <hl-code text="*fn:replaceall(fn:trimindent(@children.noslot.node.innerhtml), '=&quot;&quot;', '')" class="p-0" code:class="language-html theme-dark p-3"></hl-code>
+                <div style="color: white; background-color:black; font-weight:bold;" class="pl-3 pt-2 pb-2">Generated HTML</div>
+                <hl-code fromselector="*'#example-' + $c.@hibiki.uuid + ' div div'" beautify class="p-0" code:class="language-html theme-dark p-3"></hl-code>
               </div>
             </html-td>
           </html-tr>
@@ -1074,6 +1091,10 @@
           <div class="content ml-4" style="margin-right: 200px;">
             <h-children bind="@children"></h-children>
           </div>
+        </define-component>
+
+        <define-component name="discordicon">
+          <img style="width: 20px; height: 20px; margin-right: 0.5rem;" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzEiIGhlaWdodD0iNTUiIHZpZXdCb3g9IjAgMCA3MSA1NSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGQ9Ik02MC4xMDQ1IDQuODk3OEM1NS41NzkyIDIuODIxNCA1MC43MjY1IDEuMjkxNiA0NS42NTI3IDAuNDE1NDJDNDUuNTYwMyAwLjM5ODUxIDQ1LjQ2OCAwLjQ0MDc2OSA0NS40MjA0IDAuNTI1Mjg5QzQ0Ljc5NjMgMS42MzUzIDQ0LjEwNSAzLjA4MzQgNDMuNjIwOSA0LjIyMTZDMzguMTYzNyAzLjQwNDYgMzIuNzM0NSAzLjQwNDYgMjcuMzg5MiA0LjIyMTZDMjYuOTA1IDMuMDU4MSAyNi4xODg2IDEuNjM1MyAyNS41NjE3IDAuNTI1Mjg5QzI1LjUxNDEgMC40NDM1ODkgMjUuNDIxOCAwLjQwMTMzIDI1LjMyOTQgMC40MTU0MkMyMC4yNTg0IDEuMjg4OCAxNS40MDU3IDIuODE4NiAxMC44Nzc2IDQuODk3OEMxMC44Mzg0IDQuOTE0NyAxMC44MDQ4IDQuOTQyOSAxMC43ODI1IDQuOTc5NUMxLjU3Nzk1IDE4LjczMDkgLTAuOTQzNTYxIDMyLjE0NDMgMC4yOTM0MDggNDUuMzkxNEMwLjI5OTAwNSA0NS40NTYyIDAuMzM1Mzg2IDQ1LjUxODIgMC4zODU3NjEgNDUuNTU3NkM2LjQ1ODY2IDUwLjAxNzQgMTIuMzQxMyA1Mi43MjQ5IDE4LjExNDcgNTQuNTE5NUMxOC4yMDcxIDU0LjU0NzcgMTguMzA1IDU0LjUxMzkgMTguMzYzOCA1NC40Mzc4QzE5LjcyOTUgNTIuNTcyOCAyMC45NDY5IDUwLjYwNjMgMjEuOTkwNyA0OC41MzgzQzIyLjA1MjMgNDguNDE3MiAyMS45OTM1IDQ4LjI3MzUgMjEuODY3NiA0OC4yMjU2QzE5LjkzNjYgNDcuNDkzMSAxOC4wOTc5IDQ2LjYgMTYuMzI5MiA0NS41ODU4QzE2LjE4OTMgNDUuNTA0MSAxNi4xNzgxIDQ1LjMwNCAxNi4zMDY4IDQ1LjIwODJDMTYuNjc5IDQ0LjkyOTMgMTcuMDUxMyA0NC42MzkxIDE3LjQwNjcgNDQuMzQ2MUMxNy40NzEgNDQuMjkyNiAxNy41NjA2IDQ0LjI4MTMgMTcuNjM2MiA0NC4zMTUxQzI5LjI1NTggNDkuNjIwMiA0MS44MzU0IDQ5LjYyMDIgNTMuMzE3OSA0NC4zMTUxQzUzLjM5MzUgNDQuMjc4NSA1My40ODMxIDQ0LjI4OTggNTMuNTUwMiA0NC4zNDMzQzUzLjkwNTcgNDQuNjM2MyA1NC4yNzc5IDQ0LjkyOTMgNTQuNjUyOSA0NS4yMDgyQzU0Ljc4MTYgNDUuMzA0IDU0Ljc3MzIgNDUuNTA0MSA1NC42MzMzIDQ1LjU4NThDNTIuODY0NiA0Ni42MTk3IDUxLjAyNTkgNDcuNDkzMSA0OS4wOTIxIDQ4LjIyMjhDNDguOTY2MiA0OC4yNzA3IDQ4LjkxMDIgNDguNDE3MiA0OC45NzE4IDQ4LjUzODNDNTAuMDM4IDUwLjYwMzQgNTEuMjU1NCA1Mi41Njk5IDUyLjU5NTkgNTQuNDM1QzUyLjY1MTkgNTQuNTEzOSA1Mi43NTI2IDU0LjU0NzcgNTIuODQ1IDU0LjUxOTVDNTguNjQ2NCA1Mi43MjQ5IDY0LjUyOSA1MC4wMTc0IDcwLjYwMTkgNDUuNTU3NkM3MC42NTUxIDQ1LjUxODIgNzAuNjg4NyA0NS40NTkgNzAuNjk0MyA0NS4zOTQyQzcyLjE3NDcgMzAuMDc5MSA2OC4yMTQ3IDE2Ljc3NTcgNjAuMTk2OCA0Ljk4MjNDNjAuMTc3MiA0Ljk0MjkgNjAuMTQzNyA0LjkxNDcgNjAuMTA0NSA0Ljg5NzhaTTIzLjcyNTkgMzcuMzI1M0MyMC4yMjc2IDM3LjMyNTMgMTcuMzQ1MSAzNC4xMTM2IDE3LjM0NTEgMzAuMTY5M0MxNy4zNDUxIDI2LjIyNSAyMC4xNzE3IDIzLjAxMzMgMjMuNzI1OSAyMy4wMTMzQzI3LjMwOCAyMy4wMTMzIDMwLjE2MjYgMjYuMjUzMiAzMC4xMDY2IDMwLjE2OTNDMzAuMTA2NiAzNC4xMTM2IDI3LjI4IDM3LjMyNTMgMjMuNzI1OSAzNy4zMjUzWk00Ny4zMTc4IDM3LjMyNTNDNDMuODE5NiAzNy4zMjUzIDQwLjkzNzEgMzQuMTEzNiA0MC45MzcxIDMwLjE2OTNDNDAuOTM3MSAyNi4yMjUgNDMuNzYzNiAyMy4wMTMzIDQ3LjMxNzggMjMuMDEzM0M1MC45IDIzLjAxMzMgNTMuNzU0NSAyNi4yNTMyIDUzLjY5ODYgMzAuMTY5M0M1My42OTg2IDM0LjExMzYgNTAuOSAzNy4zMjUzIDQ3LjMxNzggMzcuMzI1M1oiIGZpbGw9IiMyMzI3MkEiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMCI+CjxyZWN0IHdpZHRoPSI3MSIgaGVpZ2h0PSI1NSIgZmlsbD0id2hpdGUiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K">
         </define-component>
       </template>
 
