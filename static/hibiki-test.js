@@ -13,7 +13,7 @@ function writeScript(src) {
 }
 
 function loadScriptQueue() {
-    if (scriptQueue.length == 0) {
+    if (scriptQueue.length === 0) {
         return;
     }
     let nextSrc = scriptQueue.shift();
@@ -29,10 +29,10 @@ function writeStyleSheet(href) {
 
 function testMode() {
     let params = new URLSearchParams(window.location.search);
-    if (params.get("mode") == "test") {
+    if (params.get("mode") === "test") {
         return "test";
     }
-    if (params.get("mode") == "prod") {
+    if (params.get("mode") === "prod") {
         return "prod";
     }
     if (window.location.host.match(/(^localhost|(^|\.)hibiki-dev.com)(\:\d+)?$/)) {
@@ -41,7 +41,7 @@ function testMode() {
     return "prod";
 }
 
-if (testMode() == "test") {
+if (testMode() === "test") {
     window.HibikiGlobalConfig = {
         libraryRoot: "http://localhost:5005/libs/",
         useDevLibraryBuilds: true,
@@ -49,7 +49,7 @@ if (testMode() == "test") {
     scriptQueue.push("http://localhost:9000/hibiki-dev.js");
 }
 else {
-    scriptQueue.push("https://cdn.hibikihtml.com/hibiki/v0.3.2/hibiki-prod.min.js");
+    scriptQueue.push("https://cdn.hibikihtml.com/hibiki/v0.3.3/hibiki-prod.min.js");
 }
 loadScriptQueue();
 
