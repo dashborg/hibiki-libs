@@ -49,7 +49,7 @@ if (testMode() === "test") {
     scriptQueue.push("http://localhost:9000/hibiki-dev.js");
 }
 else {
-    scriptQueue.push("https://cdn.hibikihtml.com/hibiki/v0.3.3/hibiki-prod.min.js");
+    scriptQueue.push("https://cdn.hibikihtml.com/hibiki/v0.3.4/hibiki-prod.min.js");
 }
 loadScriptQueue();
 
